@@ -1,0 +1,30 @@
+spring:
+  application:
+    name: spring-app
+  profiles:
+    active: dev
+    include: custom
+  jackson:
+    dateformat: yyyy-MM-dd HH:mm:ss
+    timezone: GMT+8
+  servlet:
+    multipart:
+      max-file-size: -1
+      max-request-size: -1
+  pid:
+    file: ./log/${spring.application.name}.pid
+  h2:
+    console:
+      enabled: true
+
+server:
+  servlet:
+    context-path: /${spring.application.name}
+
+logging:
+  file:
+    name: ./log/${spring.application.name}.log
+
+mybatis:
+  configuration:
+    map-underscore-to-camel-case: true
