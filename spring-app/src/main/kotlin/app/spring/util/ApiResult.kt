@@ -1,7 +1,7 @@
 package app.spring.util
 
 /**
- * 通用接口血液参数
+ * 通用接口响应参数
  */
 data class ApiResult<T>(
     val state : ApiState = ApiState.OK,

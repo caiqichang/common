@@ -3,11 +3,10 @@ package app.spring.config
 import app.spring.util.ApiResult
 import app.spring.util.ApiState
 import org.slf4j.LoggerFactory
-import org.springframework.http.ResponseEntity
-import org.springframework.web.bind.annotation.ControllerAdvice
 import org.springframework.web.bind.annotation.ExceptionHandler
+import org.springframework.web.bind.annotation.RestControllerAdvice
 
-@ControllerAdvice
+@RestControllerAdvice
 class GlobalExceptionHandler {
 
     companion object {
@@ -15,12 +14,12 @@ class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(Throwable::class)
-    fun throwable(t: Throwable): ResponseEntity<ApiResult<Any>> {
+    fun throwable(t: Throwable): ApiResult<Any> {
         t.printStackTrace()
         log.info(t.message)
-        return ResponseEntity.ok(ApiResult(
+        return ApiResult(
             state = ApiState.ERROR,
             message = t.message,
-        ))
+        )
     }
 }
