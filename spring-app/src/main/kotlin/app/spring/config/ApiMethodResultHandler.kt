@@ -15,7 +15,9 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseBodyAdvice
  * 将ApiMethod的响应参数封装为ApiResult
  */
 @ControllerAdvice
-class ApiMethodResultHandler : ResponseBodyAdvice<Any> {
+class ApiMethodResultHandler(
+    private val objectMapper: ObjectMapper,
+) : ResponseBodyAdvice<Any> {
 
     override fun supports(returnType: MethodParameter, converterType: Class<out HttpMessageConverter<*>>): Boolean {
         return returnType.method?.getAnnotation(ApiMethod::class.java) !== null
@@ -24,7 +26,7 @@ class ApiMethodResultHandler : ResponseBodyAdvice<Any> {
     override fun beforeBodyWrite(body: Any?, returnType: MethodParameter, selectedContentType: MediaType, selectedConverterType: Class<out HttpMessageConverter<*>>, request: ServerHttpRequest, response: ServerHttpResponse): Any? {
         response.headers.contentType = MediaType.APPLICATION_JSON
         return if (body is String) {
-            ObjectMapper().writeValueAsString(ApiResult(data = body))
+            objectMapper.writeValueAsString(ApiResult(data = body))
         }else {
             ApiResult(data = body)
         }

@@ -4,8 +4,10 @@ import ch.qos.logback.core.util.TimeUtil
 import org.apache.http.conn.ssl.SSLConnectionSocketFactory
 import org.apache.http.impl.client.HttpClients
 import org.apache.http.ssl.SSLContextBuilder
+import org.springframework.http.MediaType
 import org.springframework.http.client.HttpComponentsClientHttpRequestFactory
 import org.springframework.http.client.SimpleClientHttpRequestFactory
+import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter
 import org.springframework.web.client.RestTemplate
 import java.util.concurrent.TimeUnit
 
@@ -29,17 +31,29 @@ enum class RestTemplateUtil {
                     SSLContextBuilder().loadTrustMaterial { _, _ -> true }.build()
                 )
             )
-            if (timeout > 0) client.setConnectionTimeToLive(timeout.toLong(), TimeUnit.MILLISECONDS)
+            if (timeout >= 0) client.setConnectionTimeToLive(timeout.toLong(), TimeUnit.MILLISECONDS)
             return RestTemplate(HttpComponentsClientHttpRequestFactory(
                 client.build()
             ))
         }else {
             val factory = SimpleClientHttpRequestFactory()
-            if (timeout > 0) {
+            if (timeout >= 0) {
                 factory.setConnectTimeout(timeout)
                 factory.setReadTimeout(timeout)
             }
             return RestTemplate(factory)
         }
+    }
+
+    /**
+     * 响应参数类型为 text/plain 时也解析为json
+     */
+    fun convertPlainToJson(restTemplate: RestTemplate): RestTemplate {
+        restTemplate.messageConverters.forEach {
+            if (it is MappingJackson2HttpMessageConverter) {
+                it.supportedMediaTypes = listOf( MediaType.TEXT_PLAIN, MediaType.APPLICATION_JSON )
+            }
+        }
+        return restTemplate
     }
 }
