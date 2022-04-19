@@ -34,15 +34,11 @@ class InstantDeserializer(
     private val applicationProperties: ApplicationProperties,
 ) : JsonDeserializer<Instant>() {
     override fun deserialize(p: JsonParser?, ctxt: DeserializationContext?): Instant? {
-        val value = p?.valueAsString
-        return if (value === null) {
-            null
-        }else {
-            ZonedDateTime.parse(value,
+        return p?.valueAsString.let {
+            ZonedDateTime.parse(it,
                 DateTimeFormatter.ofPattern(applicationProperties.springJacksonDateformat)
                     .withZone(ZoneId.of(applicationProperties.springJacksonTimezone))
             ).toInstant()
         }
     }
-
 }
