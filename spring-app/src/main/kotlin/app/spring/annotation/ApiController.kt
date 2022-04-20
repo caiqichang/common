@@ -6,8 +6,9 @@ import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestMethod
 
 /**
- * 自动填充接口类的RequestMapping路径
- *
+ * fill the path to class-level [RequestMapping] by method name automatically.
+ * compatible with [RequestMapping]
+ * @see [app.spring.annotation.processor.ApiRequestMappingHandlerMapping]
  * e.g. TestController -> /test
  */
 @Retention(AnnotationRetention.RUNTIME)

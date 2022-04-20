@@ -18,6 +18,7 @@ class EnvironmentPostProcessorConfig : EnvironmentPostProcessor {
                     }
                 }
             }
+            // add to `First` to overwrite the original properties
             addFirst(MapPropertySource("newProperties${Math.random()}", newProperties))
         }
     }

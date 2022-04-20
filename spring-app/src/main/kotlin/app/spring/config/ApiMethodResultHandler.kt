@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.ControllerAdvice
 import org.springframework.web.servlet.mvc.method.annotation.ResponseBodyAdvice
 
 /**
- * 将ApiMethod的响应参数封装为ApiResult
+ * wrapper the result of [ApiMethod] as [ApiResult]
  */
 @ControllerAdvice
 class ApiMethodResultHandler(
@@ -24,8 +24,10 @@ class ApiMethodResultHandler(
     }
 
     override fun beforeBodyWrite(body: Any?, returnType: MethodParameter, selectedContentType: MediaType, selectedConverterType: Class<out HttpMessageConverter<*>>, request: ServerHttpRequest, response: ServerHttpResponse): Any? {
+        // if body is string, content-type of response will be text/plain
         response.headers.contentType = MediaType.APPLICATION_JSON
         return if (body is String) {
+            // text/plain will not be converted to json automatically
             objectMapper.writeValueAsString(ApiResult(data = body))
         }else {
             ApiResult(data = body)

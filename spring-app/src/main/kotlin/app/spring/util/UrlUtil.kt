@@ -7,7 +7,7 @@ enum class UrlUtil {
     INSTANCE;
 
     /**
-     * url参数编码
+     * Encode URL query parameters
      */
     fun encode(raw: String): String {
         return URLEncoder.encode(raw, StandardCharsets.UTF_8).replace("\\+", "%20")

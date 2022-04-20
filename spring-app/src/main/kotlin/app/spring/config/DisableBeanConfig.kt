@@ -6,11 +6,14 @@ import org.springframework.beans.factory.support.BeanDefinitionRegistryPostProce
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty
 import org.springframework.stereotype.Component
 
+// must add properties `disable-bean` and setup as true
 @ConditionalOnProperty(name = ["disable-bean"], havingValue = "true")
 @Component
 class DisableBeanConfig : BeanDefinitionRegistryPostProcessor {
 
-    private val listOfDisableBeans = listOf<String>()
+    private val listOfDisableBeans = listOf<String>(
+        // add name of disable beans here
+    )
 
     override fun postProcessBeanFactory(beanFactory: ConfigurableListableBeanFactory) {
 

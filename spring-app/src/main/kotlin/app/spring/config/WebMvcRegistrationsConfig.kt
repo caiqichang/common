@@ -8,9 +8,6 @@ import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandl
 @Configuration
 class WebMvcRegistrationsConfig : WebMvcRegistrations {
 
-    /**
-     * 自定义RequestMapping处理
-     */
     override fun getRequestMappingHandlerMapping(): RequestMappingHandlerMapping {
         return ApiRequestMappingHandlerMapping()
     }

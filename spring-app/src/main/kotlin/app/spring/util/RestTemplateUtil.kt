@@ -1,6 +1,5 @@
 package app.spring.util
 
-import ch.qos.logback.core.util.TimeUtil
 import org.apache.http.conn.ssl.SSLConnectionSocketFactory
 import org.apache.http.impl.client.HttpClients
 import org.apache.http.ssl.SSLContextBuilder
@@ -15,10 +14,8 @@ enum class RestTemplateUtil {
     INSTANCE;
 
     /**
-     * 自定义RestTemplate
-     *
-     * @param ignoreSSL 是否忽略ssl，默认为false
-     * @param timeout 超时时间，单位：毫秒，小于0则使用默认值
+     * @param ignoreSSL
+     * @param timeout unit is milliseconds. if lower than 0, set to default
      */
     fun custom(
         ignoreSSL: Boolean = false,
@@ -46,7 +43,7 @@ enum class RestTemplateUtil {
     }
 
     /**
-     * 响应参数类型为 text/plain 时也解析为json
+     * resolve response body of text/plain as json
      */
     fun convertPlainToJson(restTemplate: RestTemplate): RestTemplate {
         restTemplate.messageConverters.forEach {
