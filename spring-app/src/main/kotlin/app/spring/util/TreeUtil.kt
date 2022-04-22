@@ -47,7 +47,7 @@ enum class TreeUtil {
         children: (T) -> MutableList<T>?,
         setChildren: (T, T) -> Unit,
         comparator: Comparator<T>?,
-    ): List<T> {
+    ): MutableList<T> {
         val tree = mutableListOf<T>()
         val copy = list.toMutableList()
 
