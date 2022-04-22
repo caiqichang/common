@@ -2,6 +2,7 @@ package app.spring
 
 import app.spring.util.CryptoUtil
 import app.spring.util.DataObjectUtil
+import app.spring.util.RsaKeyPair
 import app.spring.util.TreeUtil
 import org.junit.jupiter.api.Test
 import org.slf4j.LoggerFactory
@@ -32,7 +33,9 @@ class ApplicationTests {
 
     @Test
     fun aesTest() {
-        log.info(CryptoUtil.INSTANCE.generateRandomAesKey())
+        val keyPair = CryptoUtil.INSTANCE.generateRsaKeyPair()
+        log.info("${keyPair.publicKey}")
+        log.info(CryptoUtil.INSTANCE.processKey(CryptoUtil.INSTANCE.formatPublicKeyToPem(keyPair.publicKey)))
     }
 }
 

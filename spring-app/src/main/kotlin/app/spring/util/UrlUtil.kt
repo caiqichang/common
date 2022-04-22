@@ -10,6 +10,6 @@ enum class UrlUtil {
      * Encode URL query parameters
      */
     fun encode(raw: String): String {
-        return URLEncoder.encode(raw, StandardCharsets.UTF_8).replace("\\+", "%20")
+        return URLEncoder.encode(raw, StandardCharsets.UTF_8).replace("+", "%20")
     }
 }
