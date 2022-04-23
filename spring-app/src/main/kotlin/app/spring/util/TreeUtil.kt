@@ -1,5 +1,7 @@
 package app.spring.util
 
+import org.springframework.beans.BeanUtils
+
 enum class TreeUtil {
     INSTANCE;
 
@@ -41,6 +43,7 @@ enum class TreeUtil {
      * @param comparator if null, tree will not sort
      */
     fun <T, ID> listToTree(
+        clazz: Class<T>,
         list: List<T>,
         id: (T) -> ID,
         parentId: (T) -> ID,
@@ -49,14 +52,17 @@ enum class TreeUtil {
         comparator: Comparator<T>?,
     ): MutableList<T> {
         val tree = mutableListOf<T>()
-        val copy = list.toMutableList()
+        val copy = DataObjectUtil.INSTANCE.copyList(list, clazz)
+        val map = copy.groupBy(id)
 
         copy.forEach {
             var isRoot = true
             for (l in list) {
                 if (id(l) == parentId(it)) {
                     isRoot = false
-                    setChildren(l, it)
+                    map[id(l)]?.first()?.let { p ->
+                        setChildren(p, it)
+                    }
                     break
                 }
             }

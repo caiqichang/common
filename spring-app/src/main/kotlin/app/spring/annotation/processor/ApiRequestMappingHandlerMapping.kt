@@ -18,7 +18,7 @@ class ApiRequestMappingHandlerMapping : RequestMappingHandlerMapping() {
             if (apiController !== null && apiController.value.isEmpty() && apiController.path.isEmpty()) {
                 val controllerName = handlerType.simpleName
                 // set first letter to lower case
-                val path = "/${controllerName.lowercase()[0]}${controllerName.substring(1, (
+                val path = "/${controllerName.lowercase().first()}${controllerName.substring(1, (
                         if (controllerName.matches(Regex(".+Controller")))
                             controllerName.length - 10
                         else

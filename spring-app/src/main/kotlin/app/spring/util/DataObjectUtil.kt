@@ -5,6 +5,14 @@ import com.fasterxml.jackson.databind.ObjectMapper
 enum class DataObjectUtil {
     INSTANCE;
 
+    fun <T> copy(t: T, clazz: Class<T>, om: ObjectMapper = ObjectMapper()): T {
+        return om.readValue(om.writeValueAsString(t), clazz)
+    }
+
+    fun <T> copyList(list: List<T>, clazz: Class<T>, om: ObjectMapper = ObjectMapper()): List<T> {
+        return list.map { copy(it,  clazz, om) }
+    }
+
     fun toMap(obj: Any, om: ObjectMapper = ObjectMapper()): Map<String, Any?> {
         val map = mutableMapOf<String, Any?>()
         toMapHelper(obj, om) { k, v ->

@@ -21,10 +21,10 @@ class ApplicationTests {
             Tree(5, 6, "e", null),
         )
 
-        val tree = TreeUtil.INSTANCE.listToTree(list, {it.id}, {it.pId}, {it.sub}, {p, c ->
+        val tree = TreeUtil.INSTANCE.listToTree(Tree::class.java, list, {it.id}, {it.pId}, {it.sub}, {p, c ->
             if (p.sub === null) p.sub = mutableListOf()
             p.sub!!.add(c)
-        }, { l, r -> l.name.compareTo(r.name) })
+        }, { l, r -> l.name?.compareTo(r.name ?: "") ?: -1 })
 
         DataObjectUtil.INSTANCE.toMap(Tree(0, null, "root", tree)).forEach { (k, v) ->
             log.info("${k} : ${v}")
@@ -40,8 +40,12 @@ class ApplicationTests {
 }
 
 data class Tree(
-    var id: Int,
+    var id: Int?,
     var pId: Int?,
-    var name: String,
+    var name: String?,
     var sub: MutableList<Tree>?
-)
+) {
+    constructor() : this(
+        null, null, null, null,
+    )
+}

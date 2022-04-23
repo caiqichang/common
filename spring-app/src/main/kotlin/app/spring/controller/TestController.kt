@@ -20,6 +20,11 @@ class TestController(
     fun test1(@RequestBody testDto: TestDto): String {
         return objectMapper.writeValueAsString(testDto)
     }
+
+    @ApiMethod
+    fun test2(): String {
+        return "ok"
+    }
 }
 
 data class TestDto(
