@@ -21,7 +21,7 @@ class ApplicationTests {
             Tree(5, 6, "e", null),
         )
 
-        val tree = TreeUtil.INSTANCE.listToTree(Tree::class.java, list, {it.id}, {it.pId}, {it.sub}, {p, c ->
+        val tree = TreeUtil.INSTANCE.listToTree(list, Tree::id, Tree::pId, Tree::sub, {p, c ->
             if (p.sub === null) p.sub = mutableListOf()
             p.sub!!.add(c)
         }, { l, r -> l.name?.compareTo(r.name ?: "") ?: -1 })
@@ -34,7 +34,7 @@ class ApplicationTests {
     @Test
     fun aesTest() {
         val keyPair = CryptoUtil.INSTANCE.generateRsaKeyPair()
-        log.info("${keyPair.publicKey}")
+        log.info(keyPair.publicKey)
         log.info(CryptoUtil.INSTANCE.processKey(CryptoUtil.INSTANCE.formatPublicKeyToPem(keyPair.publicKey)))
     }
 }

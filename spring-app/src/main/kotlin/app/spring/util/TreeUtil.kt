@@ -42,17 +42,16 @@ enum class TreeUtil {
      * @param setChildren parent, child -> set child to parent's children
      * @param comparator if null, tree will not sort
      */
-    fun <T, ID> listToTree(
-        clazz: Class<T>,
+    inline fun <reified T, ID> listToTree(
         list: List<T>,
-        id: (T) -> ID,
-        parentId: (T) -> ID,
-        children: (T) -> MutableList<T>?,
-        setChildren: (T, T) -> Unit,
+        noinline id: (T) -> ID,
+        noinline parentId: (T) -> ID,
+        noinline children: (T) -> MutableList<T>?,
+        noinline setChildren: (T, T) -> Unit,
         comparator: Comparator<T>?,
     ): MutableList<T> {
         val tree = mutableListOf<T>()
-        val copy = DataObjectUtil.INSTANCE.copyList(list, clazz)
+        val copy = DataObjectUtil.INSTANCE.copyList(list)
         val map = copy.groupBy(id)
 
         copy.forEach {

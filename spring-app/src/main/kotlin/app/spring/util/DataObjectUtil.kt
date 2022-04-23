@@ -5,12 +5,12 @@ import com.fasterxml.jackson.databind.ObjectMapper
 enum class DataObjectUtil {
     INSTANCE;
 
-    fun <T> copy(t: T, clazz: Class<T>, om: ObjectMapper = ObjectMapper()): T {
-        return om.readValue(om.writeValueAsString(t), clazz)
+    inline fun <reified T> copy(t: T, om: ObjectMapper = ObjectMapper()): T {
+        return om.readValue(om.writeValueAsString(t), T::class.java)
     }
 
-    fun <T> copyList(list: List<T>, clazz: Class<T>, om: ObjectMapper = ObjectMapper()): List<T> {
-        return list.map { copy(it,  clazz, om) }
+    inline fun <reified T> copyList(list: List<T>, om: ObjectMapper = ObjectMapper()): List<T> {
+        return list.map { copy(it, om) }
     }
 
     fun toMap(obj: Any, om: ObjectMapper = ObjectMapper()): Map<String, Any?> {
