@@ -1,6 +1,6 @@
 package app.spring.common
 
-import app.spring.config.data.ApplicationProperties
+import app.spring.config.data.ProjectProperties
 import org.slf4j.LoggerFactory
 import org.springframework.boot.context.event.ApplicationReadyEvent
 import org.springframework.boot.system.ApplicationPid
@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component
 
 @Component
 class LogPidAndHome(
-    private val applicationProperties: ApplicationProperties,
+    private val projectProperties: ProjectProperties,
 ) {
     companion object {
         private val log = LoggerFactory.getLogger(LogPidAndHome::class.java)
@@ -21,6 +21,6 @@ class LogPidAndHome(
     @Order(Ordered.HIGHEST_PRECEDENCE)
     fun applicationReady() {
         log.info("PID: ${ApplicationPid()}")
-        log.info("http://localhost:${applicationProperties.serverPort}${applicationProperties.serverServletContextPath}")
+        log.info("http://localhost:${projectProperties.serverPort}${projectProperties.serverServletContextPath}")
     }
 }

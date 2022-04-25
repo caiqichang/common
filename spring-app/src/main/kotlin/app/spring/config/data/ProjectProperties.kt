@@ -4,7 +4,7 @@ import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Component
 
 @Component
-class ApplicationProperties(
+class ProjectProperties(
 
     @Value("\${spring.jackson.dateformat:yyyy-MM-dd HH:mm:ss}")
     val springJacksonDateformat: String,

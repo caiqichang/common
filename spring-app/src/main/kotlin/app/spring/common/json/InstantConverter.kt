@@ -1,6 +1,6 @@
 package app.spring.common.json
 
-import app.spring.config.data.ApplicationProperties
+import app.spring.config.data.ProjectProperties
 import com.fasterxml.jackson.core.JsonGenerator
 import com.fasterxml.jackson.core.JsonParser
 import com.fasterxml.jackson.databind.DeserializationContext
@@ -15,15 +15,15 @@ import java.time.format.DateTimeFormatter
 
 @JsonComponent
 class InstantSerializer(
-    private val applicationProperties: ApplicationProperties,
+    private val projectProperties: ProjectProperties,
 ) : JsonSerializer<Instant>() {
     override fun serialize(value: Instant?, gen: JsonGenerator?, serializers: SerializerProvider?) {
         if (value === null) {
             gen?.writeNull()
         } else {
             gen?.writeString(
-                DateTimeFormatter.ofPattern(applicationProperties.springJacksonDateformat)
-                    .format(value.atZone(ZoneId.of(applicationProperties.springJacksonTimezone)))
+                DateTimeFormatter.ofPattern(projectProperties.springJacksonDateformat)
+                    .format(value.atZone(ZoneId.of(projectProperties.springJacksonTimezone)))
             )
         }
     }
@@ -31,13 +31,13 @@ class InstantSerializer(
 
 @JsonComponent
 class InstantDeserializer(
-    private val applicationProperties: ApplicationProperties,
+    private val projectProperties: ProjectProperties,
 ) : JsonDeserializer<Instant>() {
     override fun deserialize(p: JsonParser?, ctxt: DeserializationContext?): Instant? {
         return p?.valueAsString.let {
             ZonedDateTime.parse(it,
-                DateTimeFormatter.ofPattern(applicationProperties.springJacksonDateformat)
-                    .withZone(ZoneId.of(applicationProperties.springJacksonTimezone))
+                DateTimeFormatter.ofPattern(projectProperties.springJacksonDateformat)
+                    .withZone(ZoneId.of(projectProperties.springJacksonTimezone))
             ).toInstant()
         }
     }
