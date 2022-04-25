@@ -105,6 +105,22 @@
         </dependency>
 
         <dependency>
+            <groupId>org.apache.poi</groupId>
+            <artifactId>poi</artifactId>
+            <version>5.2.2</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.poi</groupId>
+            <artifactId>poi-ooxml</artifactId>
+            <version>5.2.2</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.pdfbox</groupId>
+            <artifactId>pdfbox</artifactId>
+            <version>2.0.26</version>
+        </dependency>
+
+        <dependency>
             <groupId>com.h2database</groupId>
             <artifactId>h2</artifactId>
             <scope>runtime</scope>
@@ -123,7 +139,7 @@
             <resource>
                 <directory>src/main/kotlin</directory>
                 <includes>
-                    <include>app/spring/business/**/*Mapper.xml</include>
+                    <include>**/*Mapper.xml</include>
                 </includes>
             </resource>
         </resources>
