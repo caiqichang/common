@@ -1,4 +1,4 @@
-package app.spring.config
+package app.spring.config.data
 
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Component

@@ -1,7 +1,7 @@
-package app.spring.config
+package app.spring.common.annotation.processor
 
-import app.spring.annotation.ApiMethod
-import app.spring.util.ApiResult
+import app.spring.common.annotation.ApiMethod
+import app.spring.common.dto.ApiResult
 import com.fasterxml.jackson.databind.ObjectMapper
 import org.springframework.core.MethodParameter
 import org.springframework.http.MediaType

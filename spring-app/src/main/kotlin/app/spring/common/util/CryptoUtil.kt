@@ -1,4 +1,4 @@
-package app.spring.util
+package app.spring.common.util
 
 import java.security.*
 import java.security.spec.PKCS8EncodedKeySpec

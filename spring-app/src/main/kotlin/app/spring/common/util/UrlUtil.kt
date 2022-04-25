@@ -1,4 +1,4 @@
-package app.spring.util
+package app.spring.common.util
 
 import java.net.URLEncoder
 import java.nio.charset.StandardCharsets

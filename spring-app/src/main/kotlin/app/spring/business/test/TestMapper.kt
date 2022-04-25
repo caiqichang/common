@@ -1,10 +1,10 @@
-package app.spring.repository
+package app.spring.business.test
 
 import org.apache.ibatis.annotations.Mapper
 import org.springframework.stereotype.Repository
 
-@Repository
-@Mapper
-interface TestDao {
+//@Repository
+//@Mapper
+interface TestMapper {
 
 }

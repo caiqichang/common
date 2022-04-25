@@ -1,4 +1,4 @@
-package app.spring.util
+package app.spring.common.util
 
 import org.springframework.util.StringUtils
 import org.springframework.web.context.request.RequestContextHolder

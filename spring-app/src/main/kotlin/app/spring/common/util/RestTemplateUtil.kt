@@ -1,4 +1,4 @@
-package app.spring.util
+package app.spring.common.util
 
 import org.apache.http.conn.ssl.SSLConnectionSocketFactory
 import org.apache.http.impl.client.HttpClients

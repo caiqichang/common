@@ -1,4 +1,4 @@
-package app.spring.project
+package app.spring.config.data
 
 interface ProjectConstants {
 

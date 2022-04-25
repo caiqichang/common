@@ -1,19 +1,19 @@
-package app.spring.util
+package app.spring.common.util
 
 import com.fasterxml.jackson.databind.ObjectMapper
 
-enum class DataObjectUtil {
-    INSTANCE;
-
-    inline fun <reified T> copy(t: T, om: ObjectMapper = ObjectMapper()): T {
+class DataObjectUtil(
+   val om: ObjectMapper = ObjectMapper(),
+) {
+    inline fun <reified T> copy(t: T): T {
         return om.readValue(om.writeValueAsString(t), T::class.java)
     }
 
-    inline fun <reified T> copyList(list: List<T>, om: ObjectMapper = ObjectMapper()): List<T> {
-        return list.map { copy(it, om) }
+    inline fun <reified T> copyList(list: List<T>): List<T> {
+        return list.map { copy(it) }
     }
 
-    fun toMap(obj: Any, om: ObjectMapper = ObjectMapper()): Map<String, Any?> {
+    fun toMap(obj: Any): Map<String, Any?> {
         val map = mutableMapOf<String, Any?>()
         toMapHelper(obj, om) { k, v ->
             map[k] = v
@@ -21,7 +21,7 @@ enum class DataObjectUtil {
         return map
     }
 
-    fun toStringMap(obj: Any, om: ObjectMapper = ObjectMapper()): Map<String, String?> {
+    fun toStringMap(obj: Any): Map<String, String?> {
         val map = mutableMapOf<String, String?>()
         toMapHelper(obj, om) { k, v ->
             map[k] = v?.toString()

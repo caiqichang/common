@@ -1,4 +1,4 @@
-package app.spring.util
+package app.spring.common.dto
 
 data class ApiResult<T>(
     val state : ApiState = ApiState.OK,

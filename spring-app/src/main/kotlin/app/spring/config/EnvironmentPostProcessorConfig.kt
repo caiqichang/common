@@ -1,7 +1,7 @@
 package app.spring.config
 
-import app.spring.project.ProjectConstants
-import app.spring.util.CryptoUtil
+import app.spring.common.util.CryptoUtil
+import app.spring.config.data.ProjectConstants
 import org.springframework.boot.SpringApplication
 import org.springframework.boot.env.EnvironmentPostProcessor
 import org.springframework.core.env.ConfigurableEnvironment

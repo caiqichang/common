@@ -1,17 +1,18 @@
-package app.spring.controller
+package app.spring.business.test
 
-import app.spring.annotation.ApiController
-import app.spring.annotation.ApiMethod
-import com.fasterxml.jackson.annotation.JsonFormat
+import app.spring.common.annotation.ApiController
+import app.spring.common.annotation.ApiMethod
+import app.spring.common.util.DataObjectUtil
 import com.fasterxml.jackson.databind.ObjectMapper
 import org.slf4j.LoggerFactory
+import org.springframework.stereotype.Component
 import org.springframework.web.bind.annotation.RequestBody
 import java.time.Instant
-import java.util.Date
 
 @ApiController
 class TestController(
-    val objectMapper: ObjectMapper
+    val objectMapper: ObjectMapper,
+    private val dataObjectUtil: DataObjectUtil,
 ) {
 
     private val log = LoggerFactory.getLogger(TestController::class.java)
@@ -23,6 +24,7 @@ class TestController(
 
     @ApiMethod
     fun test2(): String {
+        log.info("${dataObjectUtil.copy(TestDto(Instant.now())).today}")
         return "ok"
     }
 }

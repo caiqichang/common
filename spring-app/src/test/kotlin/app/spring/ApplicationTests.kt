@@ -1,9 +1,9 @@
 package app.spring
 
-import app.spring.util.CryptoUtil
-import app.spring.util.DataObjectUtil
-import app.spring.util.RsaKeyPair
-import app.spring.util.TreeUtil
+import app.spring.common.util.CryptoUtil
+import app.spring.common.util.DataObjectUtil
+import app.spring.common.util.TreeUtil
+import com.fasterxml.jackson.databind.ObjectMapper
 import org.junit.jupiter.api.Test
 import org.slf4j.LoggerFactory
 
@@ -21,12 +21,12 @@ class ApplicationTests {
             Tree(5, 6, "e", null),
         )
 
-        val tree = TreeUtil.INSTANCE.listToTree(list, Tree::id, Tree::pId, Tree::sub, {p, c ->
+        val tree = TreeUtil().listToTree(list, Tree::id, Tree::pId, Tree::sub, { p, c ->
             if (p.sub === null) p.sub = mutableListOf()
             p.sub!!.add(c)
         }, { l, r -> l.name?.compareTo(r.name ?: "") ?: -1 })
 
-        DataObjectUtil.INSTANCE.toMap(Tree(0, null, "root", tree)).forEach { (k, v) ->
+        DataObjectUtil(ObjectMapper()).toMap(Tree(0, null, "root", tree)).forEach { (k, v) ->
             log.info("${k} : ${v}")
         }
     }

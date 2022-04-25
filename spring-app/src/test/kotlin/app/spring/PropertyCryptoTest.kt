@@ -1,7 +1,7 @@
 package app.spring
 
-import app.spring.project.ProjectConstants
-import app.spring.util.CryptoUtil
+import app.spring.config.data.ProjectConstants
+import app.spring.common.util.CryptoUtil
 import org.junit.jupiter.api.Test
 import org.slf4j.LoggerFactory
 

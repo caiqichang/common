@@ -1,6 +1,6 @@
-package app.spring.json
+package app.spring.common.json
 
-import app.spring.config.ApplicationProperties
+import app.spring.config.data.ApplicationProperties
 import com.fasterxml.jackson.core.JsonGenerator
 import com.fasterxml.jackson.core.JsonParser
 import com.fasterxml.jackson.databind.DeserializationContext

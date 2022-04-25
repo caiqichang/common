@@ -1,5 +1,6 @@
-package app.spring.config
+package app.spring.common
 
+import app.spring.config.data.ApplicationProperties
 import org.slf4j.LoggerFactory
 import org.springframework.boot.context.event.ApplicationReadyEvent
 import org.springframework.boot.system.ApplicationPid

@@ -1,7 +1,7 @@
-package app.spring.annotation.processor
+package app.spring.common.annotation.processor
 
-import app.spring.annotation.ApiController
-import app.spring.annotation.ApiMethod
+import app.spring.common.annotation.ApiController
+import app.spring.common.annotation.ApiMethod
 import org.springframework.web.servlet.mvc.method.RequestMappingInfo
 import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping
 import java.lang.reflect.Method

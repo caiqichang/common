@@ -109,7 +109,7 @@
             <resource>
                 <directory>src/main/kotlin</directory>
                 <includes>
-                    <include>**/*Dao.xml</include>
+                    <include>app/spring/business/**/*Mapper.xml</include>
                 </includes>
             </resource>
         </resources>

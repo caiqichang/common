@@ -1,9 +1,10 @@
-package app.spring.util
+package app.spring.common.util
 
 import org.springframework.beans.BeanUtils
 
-enum class TreeUtil {
-    INSTANCE;
+class TreeUtil(
+    val dataObjectUtil: DataObjectUtil = DataObjectUtil(),
+) {
 
     /**
      * root first looping
@@ -51,7 +52,7 @@ enum class TreeUtil {
         comparator: Comparator<T>?,
     ): MutableList<T> {
         val tree = mutableListOf<T>()
-        val copy = DataObjectUtil.INSTANCE.copyList(list)
+        val copy = dataObjectUtil.copyList(list)
         val map = copy.groupBy(id)
 
         copy.forEach {
