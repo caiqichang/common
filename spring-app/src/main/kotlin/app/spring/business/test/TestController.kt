@@ -5,7 +5,6 @@ import app.spring.common.annotation.ApiMethod
 import app.spring.common.util.DataObjectUtil
 import com.fasterxml.jackson.databind.ObjectMapper
 import org.slf4j.LoggerFactory
-import org.springframework.stereotype.Component
 import org.springframework.web.bind.annotation.RequestBody
 import java.time.Instant
 
