@@ -4,11 +4,12 @@ import org.springframework.core.annotation.AliasFor
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestMethod
 import org.springframework.web.bind.annotation.ResponseBody
+import app.spring.common.annotation.processor.ApiRequestMappingHandlerMapping
 
 /**
  * fill the path to method-level [RequestMapping] by method name automatically.
  * compatible with [RequestMapping]
- * @see [app.spring.annotation.processor.ApiRequestMappingHandlerMapping]
+ * @see [ApiRequestMappingHandlerMapping]
  * e.g. list() -> /list
  */
 @Retention(AnnotationRetention.RUNTIME)
