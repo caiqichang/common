@@ -16,6 +16,8 @@ spring:
   h2:
     console:
       enabled: true
+  jpa:
+    show-sql: true
 
 server:
   servlet:
@@ -25,6 +27,3 @@ logging:
   file:
     name: ./log/${spring.application.name}.log
 
-mybatis:
-  configuration:
-    map-underscore-to-camel-case: true

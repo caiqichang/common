@@ -1,3 +1,12 @@
-GET http://localhost:8080/spring-app/test/test1?i=0
+GET http://localhost:8081/spring-app/test/test1?i=0
+
+###
+
+POST http://localhost:8081/spring-app/book/findAll
+Content-Type: application/json
+
+{
+    "name": "it"
+}
 
 ###
