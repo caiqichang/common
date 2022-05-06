@@ -1,26 +1,24 @@
 package app.spring.business.book
 
-import org.springframework.data.domain.Example
-import org.springframework.data.domain.ExampleMatcher
+import app.spring.common.util.JdbcTemplateUtil
+import org.springframework.data.domain.Page
+import org.springframework.data.domain.PageRequest
+import org.springframework.jdbc.core.BeanPropertyRowMapper
+import org.springframework.jdbc.core.JdbcTemplate
 import org.springframework.stereotype.Service
-import org.springframework.util.StringUtils
 
 @Service
 class BookService(
     private val bookRepository: BookRepository,
+    private val jdbcTemplate: JdbcTemplate,
+    private val jdbcTemplateUtil: JdbcTemplateUtil,
 ) {
 
-    fun findAllByExample(book: Book): List<Book> {
-        val matcher = ExampleMatcher.matching()
+    fun findAllByExample(book: Book): Book {
+        return bookRepository.save(book)
+    }
 
-        if (StringUtils.hasText(book.author)) {
-            matcher.withMatcher("author", ExampleMatcher.GenericPropertyMatchers.contains())
-        }
-
-        if (StringUtils.hasText(book.name)) {
-            matcher.withMatcher("name", ExampleMatcher.GenericPropertyMatchers.regex())
-        }
-
-        return bookRepository.findAll(Example.of(book, matcher))
+    fun customGetAll(): Page<Book> {
+        return jdbcTemplateUtil.paging("SELECT * FROM book", PageRequest.of(0, 3), Book::class.java)
     }
 }

@@ -13,11 +13,8 @@ spring:
       max-request-size: -1
   pid:
     file: ./log/${spring.application.name}.pid
-  h2:
-    console:
-      enabled: true
   jpa:
-    show-sql: true
+    open-in-view: true
 
 server:
   servlet:

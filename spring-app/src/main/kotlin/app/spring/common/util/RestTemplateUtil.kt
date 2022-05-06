@@ -1,14 +1,11 @@
 package app.spring.common.util
 
-import org.apache.http.conn.ssl.SSLConnectionSocketFactory
-import org.apache.http.impl.client.HttpClients
-import org.apache.http.ssl.SSLContextBuilder
 import org.springframework.http.MediaType
-import org.springframework.http.client.HttpComponentsClientHttpRequestFactory
 import org.springframework.http.client.SimpleClientHttpRequestFactory
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter
 import org.springframework.web.client.RestTemplate
-import java.util.concurrent.TimeUnit
+import java.net.HttpURLConnection
+import javax.net.ssl.HttpsURLConnection
 
 enum class RestTemplateUtil {
     INSTANCE;
@@ -21,25 +18,22 @@ enum class RestTemplateUtil {
         ignoreSSL: Boolean = false,
         timeout: Int = -1,
     ): RestTemplate {
-        if (ignoreSSL) {
-            val client = HttpClients.custom()
-            client.setSSLSocketFactory(
-                SSLConnectionSocketFactory(
-                    SSLContextBuilder().loadTrustMaterial { _, _ -> true }.build()
-                )
-            )
-            if (timeout >= 0) client.setConnectionTimeToLive(timeout.toLong(), TimeUnit.MILLISECONDS)
-            return RestTemplate(HttpComponentsClientHttpRequestFactory(
-                client.build()
-            ))
-        }else {
-            val factory = SimpleClientHttpRequestFactory()
-            if (timeout >= 0) {
-                factory.setConnectTimeout(timeout)
-                factory.setReadTimeout(timeout)
+        val factory = if (ignoreSSL) {
+            object : SimpleClientHttpRequestFactory() {
+                override fun prepareConnection(connection: HttpURLConnection, httpMethod: String) {
+                    if (connection is HttpsURLConnection) connection.setHostnameVerifier { _, _ -> true }
+                    super.prepareConnection(connection, httpMethod)
+                }
             }
-            return RestTemplate(factory)
+        } else {
+            SimpleClientHttpRequestFactory()
         }
+
+        if (timeout >= 0) {
+            factory.setConnectTimeout(timeout)
+            factory.setReadTimeout(timeout)
+        }
+        return RestTemplate(factory)
     }
 
     /**
@@ -48,7 +42,7 @@ enum class RestTemplateUtil {
     fun convertPlainToJson(restTemplate: RestTemplate): RestTemplate {
         restTemplate.messageConverters.forEach {
             if (it is MappingJackson2HttpMessageConverter) {
-                it.supportedMediaTypes = listOf( MediaType.TEXT_PLAIN, MediaType.APPLICATION_JSON )
+                it.supportedMediaTypes = listOf(MediaType.TEXT_PLAIN, MediaType.APPLICATION_JSON)
             }
         }
         return restTemplate

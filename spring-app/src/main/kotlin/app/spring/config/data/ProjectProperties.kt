@@ -18,4 +18,7 @@ class ProjectProperties(
     @Value("\${server.servlet.context-path:}")
     val serverServletContextPath: String,
 
+    @Value("\${spring.datasource.url:}")
+    val springDatasourceUrl: String,
+
 )

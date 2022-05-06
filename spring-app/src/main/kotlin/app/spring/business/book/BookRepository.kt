@@ -5,4 +5,5 @@ import org.springframework.stereotype.Repository
 
 @Repository
 interface BookRepository : JpaRepository<Book, String> {
+
 }

@@ -6,7 +6,13 @@ POST http://localhost:8081/spring-app/book/findAll
 Content-Type: application/json
 
 {
-    "name": "it"
+    "id": "123456",
+    "name": "it",
+    "release": "2015-06-01 12:25:24"
 }
+
+###
+
+GET http://localhost:8081/spring-app/book/page
 
 ###
