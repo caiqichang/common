@@ -18,7 +18,7 @@ enum class PagingWrapper {
 //                return@value """
 //                    SELECT * FROM (
 //                        SELECT (@row := @row + 1) AS ROW_INDEX, BUSINESS_TABLE.* FROM (SELECT @row := 0) AS ROW_TABLE, (
-//                            ${sql}  ${getSort(pageable)}
+//                            $sql  ${getSort(pageable)}
 //                        ) AS BUSINESS_TABLE
 //                    ) AS BUSINESS_TABLE_WITH_ROW WHERE ROW_INDEX > (${pageable.pageNumber} * ${pageable.pageSize}) LIMIT ${pageable.pageSize}
 //                """.trimIndent()
@@ -26,13 +26,16 @@ enum class PagingWrapper {
                 var sort = getSort(pageable)
                 if (sort.isEmpty()) {
                     sort = getSort(sql)
+                    if (sort.isEmpty()) {
+                        return@value "$sql LIMIT ${pageable.pageSize} OFFSET ${pageable.pageNumber * pageable.pageSize}"
+                    }
                 }
                 return@value """
                     SELECT * FROM ( 
-                        SELECT ROW_NUMBER() OVER ( ${sort} ) AS ROW_INDEX, BUSINESS_TABLE.* FROM (
-                            ${sql}
+                        SELECT ROW_NUMBER() OVER ( $sort ) AS ROW_INDEX, BUSINESS_TABLE.* FROM (
+                            $sql
                         ) AS BUSINESS_TABLE
-                    ) AS BUSINESS_TABLE_WITH_ROW WHERE ROW_INDEX > (${pageable.pageNumber} * ${pageable.pageSize}) LIMIT ${pageable.pageSize}
+                    ) AS BUSINESS_TABLE_WITH_ROW WHERE ROW_INDEX > ${pageable.pageNumber * pageable.pageSize} LIMIT ${pageable.pageSize}
                 """.trimIndent()
             },
 
@@ -40,13 +43,14 @@ enum class PagingWrapper {
                 var sort = getSort(pageable)
                 if (sort.isEmpty()) {
                     sort = getSort(sql)
+                    if (sort.isEmpty()) throw RuntimeException("Paging sql must contain sorting")
                 }
                 return@value """
                     SELECT TOP ${pageable.pageSize} * FROM ( 
-                        SELECT ROW_NUMBER() OVER ( ${sort} ) AS ROW_INDEX, BUSINESS_TABLE.* FROM (
-                            ${sql}
+                        SELECT ROW_NUMBER() OVER ( $sort ) AS ROW_INDEX, BUSINESS_TABLE.* FROM (
+                            $sql
                         ) AS BUSINESS_TABLE
-                    ) AS BUSINESS_TABLE_WITH_ROW WHERE ROW_INDEX > (${pageable.pageNumber} * ${pageable.pageSize})
+                    ) AS BUSINESS_TABLE_WITH_ROW WHERE ROW_INDEX > ${pageable.pageNumber * pageable.pageSize}
                 """.trimIndent()
             },
 
@@ -54,13 +58,16 @@ enum class PagingWrapper {
                 var sort = getSort(pageable)
                 if (sort.isEmpty()) {
                     sort = getSort(sql)
+                    if (sort.isEmpty()) {
+                        return@value "$sql LIMIT ${pageable.pageSize} OFFSET ${pageable.pageNumber * pageable.pageSize}"
+                    }
                 }
                 return@value """
                     SELECT * FROM ( 
-                        SELECT ROW_NUMBER() OVER ( ${sort} ) AS ROW_INDEX, BUSINESS_TABLE.* FROM (
-                            ${sql}
+                        SELECT ROW_NUMBER() OVER ( $sort ) AS ROW_INDEX, BUSINESS_TABLE.* FROM (
+                            $sql
                         ) AS BUSINESS_TABLE
-                    ) AS BUSINESS_TABLE_WITH_ROW WHERE ROW_INDEX > (${pageable.pageNumber} * ${pageable.pageSize}) LIMIT ${pageable.pageSize}
+                    ) AS BUSINESS_TABLE_WITH_ROW WHERE ROW_INDEX > ${pageable.pageNumber * pageable.pageSize} LIMIT ${pageable.pageSize}
                 """.trimIndent()
             },
 
@@ -84,7 +91,7 @@ enum class PagingWrapper {
 
     private fun getSort(sql: String): String {
         val sortSplit = sql.split(Regex("ORDER BY", RegexOption.IGNORE_CASE))
-        if (sortSplit.size < 2) throw RuntimeException("Paging sql must contain sorting")
+        if (sortSplit.size < 2) return ""
         return "ORDER BY ${sortSplit.last()}"
     }
 }
