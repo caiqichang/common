@@ -17,9 +17,9 @@ class LogPidAndHome(
         private val log = LoggerFactory.getLogger(LogPidAndHome::class.java)
     }
 
-    @EventListener(ApplicationReadyEvent::class)
+    @EventListener
     @Order(Ordered.HIGHEST_PRECEDENCE)
-    fun applicationReady() {
+    fun applicationReady(event: ApplicationReadyEvent) {
         log.info("PID: ${ApplicationPid()}")
         log.info("http://localhost:${projectProperties.serverPort}${projectProperties.serverServletContextPath}")
     }

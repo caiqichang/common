@@ -19,4 +19,9 @@ class BookController(
     fun page(): Page<Book> {
         return bookService.customGetAll()
     }
+
+    @ApiMethod
+    fun test(): List<Book> {
+        return bookService.test()
+    }
 }

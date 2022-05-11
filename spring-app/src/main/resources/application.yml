@@ -3,6 +3,9 @@ spring:
     name: spring-app
   profiles:
     active: dev
+    group:
+      dev: dev, devAppend
+      prod: prod
     include: custom
   jackson:
     dateformat: yyyy-MM-dd HH:mm:ss
