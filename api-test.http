@@ -20,3 +20,8 @@ GET http://localhost:8081/spring-app/book/page
 GET http://localhost:8081/spring-app/book/test
 
 ###
+
+
+GET http://localhost:8081/spring-app/book/prop
+
+###

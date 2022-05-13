@@ -2,13 +2,10 @@ package app.spring
 
 import app.spring.common.util.CryptoUtil
 import app.spring.common.util.DataObjectUtil
-import app.spring.common.util.RestTemplateUtil
 import app.spring.common.util.TreeUtil
 import com.fasterxml.jackson.databind.ObjectMapper
 import org.junit.jupiter.api.Test
 import org.slf4j.LoggerFactory
-import org.springframework.web.client.RestTemplate
-import org.springframework.web.client.getForObject
 
 class ApplicationTests {
 
@@ -39,11 +36,6 @@ class ApplicationTests {
         val keyPair = CryptoUtil.INSTANCE.generateRsaKeyPair()
         log.info(keyPair.publicKey)
         log.info(CryptoUtil.INSTANCE.processKey(CryptoUtil.INSTANCE.formatPublicKeyToPem(keyPair.publicKey)))
-    }
-
-    @Test
-    fun restTest() {
-
     }
 }
 

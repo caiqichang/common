@@ -9,3 +9,13 @@ spring:
   jpa:
     database-platform: org.hibernate.dialect.MySQL8Dialect
 
+multi-datasource:
+  routes:
+    - key: DB1
+      username: dev
+      password: AES[fJkm+OidsnWVG+SjLiHXrQ==]
+      url: jdbc:mysql://localhost:3306/test
+    - key: DB2
+      username: dev
+      password: AES[fJkm+OidsnWVG+SjLiHXrQ==]
+      url: jdbc:mysql://localhost:3306/test
