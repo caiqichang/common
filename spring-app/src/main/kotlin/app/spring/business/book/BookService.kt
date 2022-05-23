@@ -18,16 +18,14 @@ class BookService(
     }
 
     fun customGetAll(): Page<Book> {
-        return jdbcTemplateUtil.paging("SELECT * FROM book WHERE author LIKE :author ORDER BY id"
-            , PageRequest.of(0, 3)
+        return jdbcTemplateUtil.paging("SELECT * FROM book ORDER BY id"
+            , PageRequest.of(0, 10)
             , Book::class.java
-            , mapOf(
-                "author" to "%k%",
-            )
+            , mapOf()
         )
     }
 
     fun test(): List<Book> {
-        return bookRepository.findAllByNameStartsWith("he")
+        return bookRepository.findAll()
     }
 }

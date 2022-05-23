@@ -14,7 +14,8 @@ multi-datasource:
     - key: DB1
       username: dev
       password: AES[fJkm+OidsnWVG+SjLiHXrQ==]
-      url: jdbc:mysql://localhost:3306/test
+      url: jdbc:mysql://localhost:3307/test
+      default: true
     - key: DB2
       username: dev
       password: AES[fJkm+OidsnWVG+SjLiHXrQ==]
