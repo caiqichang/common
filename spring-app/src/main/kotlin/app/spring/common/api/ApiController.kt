@@ -1,25 +1,28 @@
-package app.spring.common.annotation
+package app.spring.common.api
 
 import org.springframework.core.annotation.AliasFor
+import org.springframework.stereotype.Controller
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestMethod
-import org.springframework.web.bind.annotation.ResponseBody
-import app.spring.common.annotation.processor.ApiRequestMappingHandlerMapping
 
 /**
- * fill the path to method-level [RequestMapping] by method name automatically.
+ * fill the path to class-level [RequestMapping] by method name automatically.
  * compatible with [RequestMapping]
  * @see [ApiRequestMappingHandlerMapping]
- * e.g. list() -> /list
+ * e.g. TestController -> /test
  */
 @Retention(AnnotationRetention.RUNTIME)
-@Target(AnnotationTarget.FUNCTION)
+@Target(AnnotationTarget.CLASS)
 @MustBeDocumented
 @RequestMapping
-@ResponseBody
-annotation class ApiMethod(
+@Controller
+annotation class ApiController(
+
     @get:AliasFor("value", annotation = RequestMapping::class)
     val value: Array<String> = [],
+
+    @get:AliasFor("value", annotation = Controller::class)
+    val controllerName: String = "",
 
     @get:AliasFor("name", annotation = RequestMapping::class)
     val name: String = "",
@@ -41,4 +44,5 @@ annotation class ApiMethod(
 
     @get:AliasFor("produces", annotation = RequestMapping::class)
     val produces: Array<String> = [],
+
 )

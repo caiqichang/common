@@ -1,4 +1,4 @@
-package app.spring.common.db.router
+package app.spring.config.data
 
 enum class DataSourceKey {
     DB1,

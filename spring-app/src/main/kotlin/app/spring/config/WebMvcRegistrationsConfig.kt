@@ -1,6 +1,6 @@
 package app.spring.config
 
-import app.spring.common.annotation.processor.ApiRequestMappingHandlerMapping
+import app.spring.common.api.ApiRequestMappingHandlerMapping
 import org.springframework.boot.autoconfigure.web.servlet.WebMvcRegistrations
 import org.springframework.context.annotation.Configuration
 import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping

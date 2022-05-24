@@ -1,7 +1,7 @@
 package app.spring.business.book
 
 import app.spring.common.db.router.DB
-import app.spring.common.db.router.DataSourceKey
+import app.spring.config.data.DataSourceKey
 import app.spring.common.util.JdbcTemplateUtil
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.PageRequest

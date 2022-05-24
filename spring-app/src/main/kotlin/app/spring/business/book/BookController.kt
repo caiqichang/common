@@ -1,15 +1,13 @@
 package app.spring.business.book
 
-import app.spring.common.annotation.ApiController
-import app.spring.common.annotation.ApiMethod
-import app.spring.common.db.router.DataSourceProp
+import app.spring.common.api.ApiController
+import app.spring.common.api.ApiMethod
 import org.springframework.data.domain.Page
 import org.springframework.web.bind.annotation.RequestBody
 
 @ApiController
 class BookController(
     private val bookService: BookService,
-    private val dataSourceProp: DataSourceProp,
 ) {
 
     @ApiMethod
@@ -27,8 +25,4 @@ class BookController(
         return bookService.test()
     }
 
-    @ApiMethod
-    fun prop(): DataSourceProp {
-        return dataSourceProp
-    }
 }

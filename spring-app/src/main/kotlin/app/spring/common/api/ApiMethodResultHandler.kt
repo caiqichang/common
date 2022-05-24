@@ -1,6 +1,5 @@
-package app.spring.common.annotation.processor
+package app.spring.common.api
 
-import app.spring.common.annotation.ApiMethod
 import app.spring.common.dto.ApiResult
 import com.fasterxml.jackson.databind.ObjectMapper
 import org.springframework.core.MethodParameter
