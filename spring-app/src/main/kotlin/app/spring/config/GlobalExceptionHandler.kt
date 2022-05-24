@@ -1,7 +1,7 @@
 package app.spring.config
 
-import app.spring.common.dto.ApiResult
-import app.spring.common.dto.ApiState
+import app.spring.common.api.ApiResult
+import app.spring.common.api.ApiState
 import org.slf4j.LoggerFactory
 import org.springframework.web.bind.annotation.ExceptionHandler
 import org.springframework.web.bind.annotation.RestControllerAdvice

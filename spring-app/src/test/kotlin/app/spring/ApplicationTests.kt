@@ -27,7 +27,7 @@ class ApplicationTests {
         }, { l, r -> l.name?.compareTo(r.name ?: "") ?: -1 })
 
         DataObjectUtil(ObjectMapper()).toMap(Tree(0, null, "root", tree)).forEach { (k, v) ->
-            log.info("${k} : ${v}")
+            log.info("$k : $v")
         }
     }
 
@@ -44,8 +44,4 @@ data class Tree(
     var pId: Int?,
     var name: String?,
     var sub: MutableList<Tree>?
-) {
-    constructor() : this(
-        null, null, null, null,
-    )
-}
+)

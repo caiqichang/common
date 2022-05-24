@@ -9,5 +9,4 @@ import org.springframework.scheduling.annotation.EnableScheduling
 @EnableCaching
 @EnableScheduling
 @Configuration
-class GlobalConfig {
-}
+class GlobalConfig

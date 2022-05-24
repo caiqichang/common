@@ -26,7 +26,7 @@ class JdbcTemplateUtil(
                    , pagingWrapper: (String, Pageable) -> String = defaultPagingWrapper
     ): Page<T> {
         val total = namedParameterJdbcTemplate.queryForObject(
-            "SELECT COUNT(*) FROM ( ${sql} ) AS BUSINESS_TABLE",
+            "SELECT COUNT(*) FROM ( $sql ) AS BUSINESS_TABLE",
             params, Long::class.java
         )
         if (total != null && total > 0) {

@@ -1,7 +1,5 @@
 package app.spring.common.util
 
-import org.springframework.beans.BeanUtils
-
 class TreeUtil(
     val dataObjectUtil: DataObjectUtil = DataObjectUtil(),
 ) {

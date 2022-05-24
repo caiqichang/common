@@ -11,7 +11,7 @@ import java.util.regex.Pattern
 class EnvironmentPostProcessorConfig : EnvironmentPostProcessor {
 
     override fun postProcessEnvironment(environment: ConfigurableEnvironment?, application: SpringApplication?) {
-        val pattern = Pattern.compile("AES\\[(.+)\\]")
+        val pattern = Pattern.compile("AES\\[(.+)]")
         environment?.propertySources?.run {
             forEach {
                 if (it is OriginTrackedMapPropertySource) {
