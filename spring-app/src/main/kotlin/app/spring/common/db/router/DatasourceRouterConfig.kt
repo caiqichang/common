@@ -1,15 +1,19 @@
 package app.spring.common.db.router
 
+import org.aspectj.lang.annotation.AfterReturning
+import org.aspectj.lang.annotation.Aspect
+import org.aspectj.lang.annotation.Before
+import org.aspectj.lang.annotation.Pointcut
+import org.slf4j.LoggerFactory
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty
 import org.springframework.boot.context.properties.ConfigurationProperties
 import org.springframework.boot.jdbc.DataSourceBuilder
 import org.springframework.context.annotation.Bean
-import org.springframework.context.annotation.Conditional
 import org.springframework.context.annotation.Configuration
 import org.springframework.jdbc.datasource.lookup.AbstractRoutingDataSource
 import org.springframework.stereotype.Component
 
-private const val propertyKey = "multi-datasource";
+private const val propertyKey = "multi-datasource"
 
 enum class DataSourceRouter {
     INSTANCE;
@@ -25,6 +29,10 @@ enum class DataSourceRouter {
     fun getCurrentDatasource(): DataSourceKey? {
         return currentDatasource.get() ?: defaultKey
     }
+
+    fun reset() {
+        currentDatasource.set(defaultKey)
+    }
 }
 
 @Retention(AnnotationRetention.RUNTIME)
@@ -33,6 +41,23 @@ enum class DataSourceRouter {
 annotation class DB(
     val key: DataSourceKey,
 )
+
+@Component
+@Aspect
+class DBAspect {
+    @Pointcut("@annotation(app.spring.common.db.router.DB)")
+    fun pointcut() {}
+
+    @Before("pointcut() && @annotation(aop)")
+    fun before(aop: DB) {
+        DataSourceRouter.INSTANCE.setCurrentDatasource(aop.key)
+    }
+
+    @AfterReturning("pointcut()")
+    fun afterReturning() {
+        DataSourceRouter.INSTANCE.reset()
+    }
+}
 
 class DataSourceRoute {
     var key: String = ""
@@ -49,20 +74,27 @@ class DataSourceProp {
     val routes: List<DataSourceRoute> = mutableListOf()
 }
 
-@ConditionalOnProperty(name = [propertyKey])
+@ConditionalOnProperty(prefix = propertyKey, name = ["enable"], havingValue = "true")
 @Configuration
 class DataSourceConfig(
     private val dataSourceProp: DataSourceProp,
 ) {
+
+    companion object {
+        private val log = LoggerFactory.getLogger(DataSourceConfig::class.java)
+    }
+
     @Bean
     fun routingDatasource(): AbstractRoutingDataSource {
+        if (dataSourceProp.routes.isEmpty()) throw Exception("no datasource found")
+
         val routingDatasource = object : AbstractRoutingDataSource() {
             override fun determineCurrentLookupKey(): Any? {
                 return DataSourceRouter.INSTANCE.getCurrentDatasource()?.name
             }
         }
+
         val dataSources = mutableMapOf<Any?, Any?>()
-        var hasDefault = false
         dataSourceProp.routes.forEach {
             if (it.active) {
                 dataSources[it.key] = DataSourceBuilder.create()
@@ -71,13 +103,17 @@ class DataSourceConfig(
                     .password(it.password)
                     .build()
                 if (it.isDefault) {
-                    if (hasDefault) throw Exception("only one datasource can be set as default")
-                    hasDefault = true
+                    if (DataSourceRouter.INSTANCE.defaultKey != null) log.warn("multiple datasource are set to default, the last one will be accepted")
                     DataSourceRouter.INSTANCE.defaultKey = DataSourceKey.valueOf(it.key)
                 }
             }
         }
-        if (!hasDefault) throw Exception("default datasource is required")
+
+        if (DataSourceRouter.INSTANCE.defaultKey == null) {
+            log.warn("no dataSource is set to default, the first one will be accepted")
+            DataSourceRouter.INSTANCE.defaultKey = DataSourceKey.valueOf(dataSourceProp.routes.first().key)
+        }
+
         routingDatasource.setTargetDataSources(dataSources)
         return routingDatasource
     }

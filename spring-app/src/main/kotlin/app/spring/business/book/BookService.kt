@@ -1,15 +1,15 @@
 package app.spring.business.book
 
+import app.spring.common.db.router.DB
+import app.spring.common.db.router.DataSourceKey
 import app.spring.common.util.JdbcTemplateUtil
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.PageRequest
-import org.springframework.jdbc.core.JdbcTemplate
 import org.springframework.stereotype.Service
 
 @Service
 class BookService(
     private val bookRepository: BookRepository,
-    private val jdbcTemplate: JdbcTemplate,
     private val jdbcTemplateUtil: JdbcTemplateUtil,
 ) {
 
@@ -17,6 +17,7 @@ class BookService(
         return bookRepository.save(book)
     }
 
+    @DB(DataSourceKey.DB2)
     fun customGetAll(): Page<Book> {
         return jdbcTemplateUtil.paging("SELECT * FROM book ORDER BY id"
             , PageRequest.of(0, 10)
@@ -25,6 +26,7 @@ class BookService(
         )
     }
 
+//    @DB(DataSourceKey.DB1)
     fun test(): List<Book> {
         return bookRepository.findAll()
     }
