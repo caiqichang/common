@@ -4,7 +4,6 @@
 spring-app
 - [ ] DateRangeUtil
 - [ ] ScheduleManage
-- [ ] RequestRateLimit, TokenBucket
 - [ ] AuthInterceptor
 - [ ] ApiAuth
 
