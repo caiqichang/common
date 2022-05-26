@@ -1,5 +1,6 @@
 package app.spring.common.auth
 
+import app.spring.common.AopOrder
 import app.spring.config.data.ApiAuthRules
 import org.aspectj.lang.annotation.Aspect
 import org.aspectj.lang.annotation.Before
@@ -9,6 +10,7 @@ import org.springframework.core.annotation.Order
 import org.springframework.expression.spel.standard.SpelExpressionParser
 import org.springframework.expression.spel.support.SimpleEvaluationContext
 import org.springframework.stereotype.Component
+import kotlin.math.log
 
 @Retention(AnnotationRetention.RUNTIME)
 @Target(AnnotationTarget.FUNCTION)
@@ -19,7 +21,7 @@ annotation class ApiAuth(
 
 @Component
 @Aspect
-@Order(Ordered.HIGHEST_PRECEDENCE + 1)
+@Order(AopOrder.apiAuth)
 class ApiAuthAspect {
 
     @Pointcut("@annotation(app.spring.common.auth.ApiAuth)")
@@ -30,7 +32,9 @@ class ApiAuthAspect {
     private val parser = SpelExpressionParser()
 
     init {
-        ApiAuthRules.getRules().forEach { (k, v) -> context.setVariable(k, v) }
+        ApiAuthRules.getRules().forEach { (k, v) ->
+            context.setVariable(k, v)
+        }
     }
 
     @Before("pointcut() && @annotation(aop)")

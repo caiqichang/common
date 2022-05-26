@@ -1,7 +1,9 @@
 package app.spring.common.db.router
 
+import app.spring.common.AopOrder
 import app.spring.config.data.DataSourceKey
 import org.aspectj.lang.annotation.AfterReturning
+import org.aspectj.lang.annotation.AfterThrowing
 import org.aspectj.lang.annotation.Aspect
 import org.aspectj.lang.annotation.Before
 import org.aspectj.lang.annotation.Pointcut
@@ -18,7 +20,7 @@ annotation class DB(
 
 @Component
 @Aspect
-@Order(Ordered.HIGHEST_PRECEDENCE)
+@Order(AopOrder.db)
 class DataSourceRouterAspect {
     @Pointcut("@annotation(app.spring.common.db.router.DB)")
     fun pointcut() {}
@@ -30,6 +32,11 @@ class DataSourceRouterAspect {
 
     @AfterReturning("pointcut()")
     fun afterReturning() {
+        DataSourceRouter.INSTANCE.reset()
+    }
+
+    @AfterThrowing("pointcut()")
+    fun afterThrowing() {
         DataSourceRouter.INSTANCE.reset()
     }
 }

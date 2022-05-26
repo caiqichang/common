@@ -1,5 +1,6 @@
 package app.spring.common.api
 
+import app.spring.common.AopOrder
 import app.spring.common.util.RequestUtil
 import org.aspectj.lang.JoinPoint
 import org.aspectj.lang.annotation.Aspect
@@ -29,7 +30,7 @@ annotation class ApiRequestRateLimit(
 
 @Component
 @Aspect
-@Order(Ordered.HIGHEST_PRECEDENCE)
+@Order(AopOrder.apiRequestRateLimit)
 class ApiRequestRateLimitAspect {
 
     @Pointcut("@annotation(app.spring.common.api.ApiRequestRateLimit)")
