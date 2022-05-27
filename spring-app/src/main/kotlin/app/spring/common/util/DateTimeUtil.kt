@@ -11,7 +11,7 @@ enum class DateTimeUtil {
     fun getStart(dateTime: LocalDateTime, unit: ChronoUnit = ChronoUnit.DAYS): LocalDateTime {
         return when (unit) {
             ChronoUnit.YEARS -> {
-                LocalDateTime.of(dateTime.year, Month.FEBRUARY, 1, 0, 0, 0)
+                LocalDateTime.of(dateTime.year, Month.JANUARY, 1, 0, 0, 0)
             }
             ChronoUnit.MONTHS -> {
                 LocalDateTime.of(dateTime.year, dateTime.month, 1, 0, 0, 0)
