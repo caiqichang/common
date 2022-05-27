@@ -1,5 +1,6 @@
-package app.spring.common.db
+package app.spring.common.db.wrapper
 
+import app.spring.common.db.DBType
 import org.slf4j.LoggerFactory
 import org.springframework.data.domain.Pageable
 
@@ -14,15 +15,6 @@ enum class PagingWrapper {
         return mapOf(
 
             DBType.MySQL to value@{ sql: String, pageable: Pageable ->
-                // before mysql 8
-//                return@value """
-//                    SELECT * FROM (
-//                        SELECT (@row := @row + 1) AS ROW_INDEX, BUSINESS_TABLE.* FROM (SELECT @row := 0) AS ROW_TABLE, (
-//                            $sql  ${getSort(pageable)}
-//                        ) AS BUSINESS_TABLE
-//                    ) AS BUSINESS_TABLE_WITH_ROW WHERE ROW_INDEX > (${pageable.pageNumber} * ${pageable.pageSize}) LIMIT ${pageable.pageSize}
-//                """.trimIndent()
-
                 var sort = getSort(pageable)
                 if (sort.isEmpty()) {
                     sort = getSort(sql)

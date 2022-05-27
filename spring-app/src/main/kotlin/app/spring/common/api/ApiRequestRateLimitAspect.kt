@@ -5,8 +5,6 @@ import app.spring.common.util.RequestUtil
 import org.aspectj.lang.JoinPoint
 import org.aspectj.lang.annotation.Aspect
 import org.aspectj.lang.annotation.Before
-import org.aspectj.lang.annotation.Pointcut
-import org.springframework.core.Ordered
 import org.springframework.core.annotation.Order
 import org.springframework.scheduling.annotation.Scheduled
 import org.springframework.stereotype.Component
@@ -33,13 +31,13 @@ annotation class ApiRequestRateLimit(
 @Order(AopOrder.apiRequestRateLimit)
 class ApiRequestRateLimitAspect {
 
-    @Pointcut("@annotation(app.spring.common.api.ApiRequestRateLimit)")
-    fun pointcut() {
+    companion object {
+        private const val pointcut = "@annotation(app.spring.common.api.ApiRequestRateLimit)"
     }
 
     private val buckets = ConcurrentHashMap<String, TokenBucket>()
 
-    @Before("pointcut() && @annotation(aop)")
+    @Before("$pointcut && @annotation(aop)")
     fun before(joinPoint: JoinPoint, aop: ApiRequestRateLimit) {
         var key = RequestUtil.INSTANCE.clientIp()
         key += if (aop.group == "") {

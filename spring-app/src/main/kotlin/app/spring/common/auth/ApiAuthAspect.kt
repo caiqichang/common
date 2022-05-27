@@ -4,19 +4,16 @@ import app.spring.common.AopOrder
 import app.spring.config.data.ApiAuthRules
 import org.aspectj.lang.annotation.Aspect
 import org.aspectj.lang.annotation.Before
-import org.aspectj.lang.annotation.Pointcut
-import org.springframework.core.Ordered
 import org.springframework.core.annotation.Order
 import org.springframework.expression.spel.standard.SpelExpressionParser
-import org.springframework.expression.spel.support.SimpleEvaluationContext
+import org.springframework.expression.spel.support.StandardEvaluationContext
 import org.springframework.stereotype.Component
-import kotlin.math.log
 
 @Retention(AnnotationRetention.RUNTIME)
 @Target(AnnotationTarget.FUNCTION)
 @MustBeDocumented
 annotation class ApiAuth(
-    val value: String = "",
+    val value: String = "false",
 )
 
 @Component
@@ -24,20 +21,18 @@ annotation class ApiAuth(
 @Order(AopOrder.apiAuth)
 class ApiAuthAspect {
 
-    @Pointcut("@annotation(app.spring.common.auth.ApiAuth)")
-    fun pointcut() {
+    companion object {
+        private const val pointcut = "@annotation(app.spring.common.auth.ApiAuth)"
     }
 
-    private val context = SimpleEvaluationContext.forReadOnlyDataBinding().build()
+    private val context = StandardEvaluationContext(ApiAuthRules())
     private val parser = SpelExpressionParser()
 
     init {
-        ApiAuthRules.getRules().forEach { (k, v) ->
-            context.setVariable(k, v)
-        }
+        ApiAuthRules::class.java.methods.forEach { context.setVariable(it.name, it) }
     }
 
-    @Before("pointcut() && @annotation(aop)")
+    @Before("$pointcut && @annotation(aop)")
     fun before(aop: ApiAuth) {
         val result = parser.parseExpression(aop.value).getValue(context, Boolean::class.java)
             ?: throw RuntimeException("authorization evaluation error")

@@ -1,7 +1,9 @@
 package app.spring.common.util
 
 import app.spring.common.db.DBType
-import app.spring.common.db.PagingWrapper
+import app.spring.common.db.wrapper.KeywordWrapper
+import app.spring.common.db.wrapper.PagingWrapper
+import app.spring.common.db.wrapper.TopNWrapper
 import app.spring.config.data.ProjectProperties
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.PageImpl
@@ -13,17 +15,19 @@ import org.springframework.stereotype.Component
 @Component
 class JdbcTemplateUtil(
     private val namedParameterJdbcTemplate: NamedParameterJdbcTemplate,
-    private val projectProperties: ProjectProperties,
+    projectProperties: ProjectProperties,
 ) {
 
-    private val defaultPagingWrapper = initPagingWrapper()
-    private fun initPagingWrapper(): (String, Pageable) -> String {
-        val urlSplit = projectProperties.springDatasourceUrl.split(":")
-        return PagingWrapper.INSTANCE.getWrapper(if (urlSplit.size > 1) DBType.fromJdbcName(urlSplit[1]) else null)
+    private val defaultDBType = projectProperties.springDatasourceUrl.split(":").let {
+        if (it.size > 1) DBType.fromJdbcName(it[1]) else null
     }
 
-    fun <T> paging(sql: String, pageable: Pageable, mappedClass: Class<T>, params: Map<String, Any> = emptyMap()
-                   , pagingWrapper: (String, Pageable) -> String = defaultPagingWrapper
+    private val defaultPagingWrapper = PagingWrapper.INSTANCE.getWrapper(defaultDBType)
+    private val defaultTopNWrapper = TopNWrapper.INSTANCE.getWrapper(defaultDBType)
+    val defaultKeywordWrapper = KeywordWrapper.INSTANCE.getWrapper(defaultDBType)
+
+    fun <T> paging(
+        sql: String, pageable: Pageable, mappedClass: Class<T>, params: Map<String, Any> = emptyMap(), pagingWrapper: (String, Pageable) -> String = defaultPagingWrapper
     ): Page<T> {
         val total = namedParameterJdbcTemplate.queryForObject(
             "SELECT COUNT(*) FROM ( $sql ) AS BUSINESS_TABLE",
@@ -41,4 +45,13 @@ class JdbcTemplateUtil(
         return PageImpl(emptyList(), pageable, 0L)
     }
 
+    fun <T> topN(
+        sql: String, n: Int, mappedClass: Class<T>, params: Map<String, Any> = emptyMap(), topNWrapper: (String, Int) -> String = defaultTopNWrapper
+    ): List<T> {
+        return namedParameterJdbcTemplate.query(
+            topNWrapper(sql, n),
+            params,
+            BeanPropertyRowMapper.newInstance(mappedClass)
+        )
+    }
 }

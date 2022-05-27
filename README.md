@@ -5,10 +5,10 @@ spring-app
 - [ ] DateRangeUtil
 - [ ] ScheduleManage
 - [ ] AuthInterceptor
-- [ ] ApiAuth
 
 other
 - [ ] gateway
 - [ ] discovery: eureka, feign
+- [ ] oauth server client
 - [ ] react-app
 - [ ] vue-app

@@ -24,7 +24,7 @@ class BookController(
 
     @ApiMethod
     @ApiRequestRateLimit(max = 2, seconds = 10)
-    @ApiAuth(value = "#hasRoles('admin', 'manager')")
+    @ApiAuth("hasRoles('admin', 'manager') && hasRoles('user')")
     fun test(): List<Book> {
         return bookService.test()
     }

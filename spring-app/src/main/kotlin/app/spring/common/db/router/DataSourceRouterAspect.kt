@@ -6,8 +6,6 @@ import org.aspectj.lang.annotation.AfterReturning
 import org.aspectj.lang.annotation.AfterThrowing
 import org.aspectj.lang.annotation.Aspect
 import org.aspectj.lang.annotation.Before
-import org.aspectj.lang.annotation.Pointcut
-import org.springframework.core.Ordered
 import org.springframework.core.annotation.Order
 import org.springframework.stereotype.Component
 
@@ -22,20 +20,22 @@ annotation class DB(
 @Aspect
 @Order(AopOrder.db)
 class DataSourceRouterAspect {
-    @Pointcut("@annotation(app.spring.common.db.router.DB)")
-    fun pointcut() {}
 
-    @Before("pointcut() && @annotation(aop)")
+    companion object {
+        private const val pointcut = "@annotation(app.spring.common.db.router.DB)"
+    }
+
+    @Before("$pointcut && @annotation(aop)")
     fun before(aop: DB) {
         DataSourceRouter.INSTANCE.setCurrentDatasource(aop.key)
     }
 
-    @AfterReturning("pointcut()")
+    @AfterReturning(pointcut)
     fun afterReturning() {
         DataSourceRouter.INSTANCE.reset()
     }
 
-    @AfterThrowing("pointcut()")
+    @AfterThrowing(pointcut)
     fun afterThrowing() {
         DataSourceRouter.INSTANCE.reset()
     }
