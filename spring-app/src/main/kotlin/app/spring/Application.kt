@@ -10,5 +10,5 @@ class Application
 fun main(args: Array<String>) {
     val builder = SpringApplicationBuilder(Application::class.java)
     builder.application().addListeners(ApplicationPidFileWriter())
-    builder.run(*args)
+    builder.run(* args)
 }

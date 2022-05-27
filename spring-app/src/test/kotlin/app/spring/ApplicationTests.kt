@@ -2,10 +2,15 @@ package app.spring
 
 import app.spring.common.util.CryptoUtil
 import app.spring.common.util.DataObjectUtil
+import app.spring.common.util.DateTimeUtil
 import app.spring.common.util.TreeUtil
 import com.fasterxml.jackson.databind.ObjectMapper
 import org.junit.jupiter.api.Test
 import org.slf4j.LoggerFactory
+import java.time.LocalDateTime
+import java.time.Month
+import java.time.format.DateTimeFormatter
+import java.time.temporal.ChronoUnit
 
 class ApplicationTests {
 
@@ -36,6 +41,13 @@ class ApplicationTests {
         val keyPair = CryptoUtil.INSTANCE.generateRsaKeyPair()
         log.info(keyPair.publicKey)
         log.info(CryptoUtil.INSTANCE.processKey(CryptoUtil.INSTANCE.formatPublicKeyToPem(keyPair.publicKey)))
+    }
+
+    @Test
+    fun dateTest() {
+        val format = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
+        val time = LocalDateTime.of(2022, 2, 5, 15, 30)
+        log.info(format.format(DateTimeUtil.INSTANCE.getEnd(time, ChronoUnit.MONTHS)))
     }
 }
 

@@ -4,9 +4,19 @@ class ApiAuthRules {
 
     // add authorization methods here
 
-    fun hasRoles(vararg str: String): Boolean {
-        println(str.joinToString())
+    fun hasRole(vararg roles: String): Boolean {
         return true
     }
 
+    fun hasAnyRole(vararg roles: String): Boolean {
+        return true
+    }
+
+    fun hasPermission(vararg permissions: String): Boolean {
+        return true
+    }
+
+    fun hasAnyPermission(vararg permissions: String): Boolean {
+        return true
+    }
 }

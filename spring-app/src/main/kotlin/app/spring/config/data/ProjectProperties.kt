@@ -9,9 +9,6 @@ class ProjectProperties(
     @Value("\${spring.jackson.dateformat:yyyy-MM-dd HH:mm:ss}")
     val springJacksonDateformat: String,
 
-    @Value("\${spring.jackson.timezone:GMT+8}")
-    val springJacksonTimezone: String,
-
     @Value("\${server.port:8080}")
     val serverPort: Int,
 
