@@ -1,0 +1,23 @@
+# intellij
+.idea
+*.iws
+*.iml
+*.ipr
+
+# sts
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings
+.springBeans
+.sts4-cache
+
+# vscode
+.vscode/
+
+# maven
+target
+
+# other
+log

@@ -1,0 +1,25 @@
+server:
+  port: 80
+  servlet:
+    context-path: /${spring.application.name}
+
+spring:
+  cloud:
+    gateway:
+      routes:
+
+        - id: center
+          predicates:
+            - Path=${server.servlet.context-path}/center/**
+          filters:
+            - PreserveHostHeader
+            - RewritePath=${server.servlet.context-path}/center/?(?<segment>.*), /center/$\{segment}
+          uri: http://localhost:10102
+
+        - id: base
+          predicates:
+            - Path=${server.servlet.context-path}/base/**
+          filters:
+            - PreserveHostHeader
+            - RewritePath=${server.servlet.context-path}/base/?(?<segment>.*), /base/$\{segment}
+          uri: http://localhost:10103
