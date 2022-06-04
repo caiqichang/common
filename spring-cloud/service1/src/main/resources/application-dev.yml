@@ -1,0 +1,9 @@
+server:
+  port: 8081
+  servlet:
+    context-path: /${spring.application.name}
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8080/discovery/eureka

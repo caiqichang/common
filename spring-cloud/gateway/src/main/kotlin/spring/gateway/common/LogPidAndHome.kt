@@ -1,6 +1,6 @@
 package spring.gateway.common
 
-import app.spring.config.data.ProjectProperties
+import spring.gateway.config.data.ProjectProperties
 import org.slf4j.LoggerFactory
 import org.springframework.boot.context.event.ApplicationReadyEvent
 import org.springframework.boot.system.ApplicationPid

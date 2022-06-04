@@ -6,7 +6,6 @@ spring:
     group:
       dev: dev
       prod: prod
-    include: routes
   servlet:
     multipart:
       max-file-size: -1

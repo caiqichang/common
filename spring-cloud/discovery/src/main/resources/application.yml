@@ -1,0 +1,29 @@
+spring:
+  application:
+    name: @project.name@
+  profiles:
+    active: dev
+    group:
+      dev: dev
+      prod: prod
+  jackson:
+    dateformat: yyyy-MM-dd HH:mm:ss
+    timezone: GMT+8
+  servlet:
+    multipart:
+      max-file-size: -1
+      max-request-size: -1
+  pid:
+    file: ./log/${spring.application.name}.pid
+
+logging:
+  file:
+    name: ./log/${spring.application.name}.log
+
+eureka:
+  client:
+    register-with-eureka: false
+    fetch-registry: false
+    service-url:
+      defaultZone: http://localhost:${server.port:8080}${server.servlet.context-path:}/eureka
+

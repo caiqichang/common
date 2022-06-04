@@ -8,18 +8,18 @@ spring:
     gateway:
       routes:
 
-        - id: center
+        - id: service1
           predicates:
-            - Path=${server.servlet.context-path}/center/**
+            - Path=${server.servlet.context-path}/service1/**
           filters:
             - PreserveHostHeader
-            - RewritePath=${server.servlet.context-path}/center/?(?<segment>.*), /center/$\{segment}
-          uri: http://localhost:10102
+            - RewritePath=${server.servlet.context-path}/service1/?(?<segment>.*), /service1/$\{segment}
+          uri: http://localhost:8081
 
-        - id: base
+        - id: service2
           predicates:
-            - Path=${server.servlet.context-path}/base/**
+            - Path=${server.servlet.context-path}/service2/**
           filters:
             - PreserveHostHeader
-            - RewritePath=${server.servlet.context-path}/base/?(?<segment>.*), /base/$\{segment}
-          uri: http://localhost:10103
+            - RewritePath=${server.servlet.context-path}/service2/?(?<segment>.*), /service2/$\{segment}
+          uri: http://localhost:8082
