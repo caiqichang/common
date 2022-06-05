@@ -14,6 +14,7 @@ spring:
           filters:
             - PreserveHostHeader
             - RewritePath=${server.servlet.context-path}/service1/?(?<segment>.*), /service1/$\{segment}
+            - AddRequestHeader=fromClient, true
           uri: http://localhost:8081
 
         - id: service2
@@ -22,4 +23,5 @@ spring:
           filters:
             - PreserveHostHeader
             - RewritePath=${server.servlet.context-path}/service2/?(?<segment>.*), /service2/$\{segment}
+            - AddRequestHeader=fromClient, true
           uri: http://localhost:8082
