@@ -7,10 +7,13 @@ import app.spring.common.util.TreeUtil
 import com.fasterxml.jackson.databind.ObjectMapper
 import org.junit.jupiter.api.Test
 import org.slf4j.LoggerFactory
+import java.time.Instant
 import java.time.LocalDateTime
 import java.time.Month
 import java.time.format.DateTimeFormatter
+import java.time.temporal.ChronoField
 import java.time.temporal.ChronoUnit
+import java.util.concurrent.CompletableFuture
 
 class ApplicationTests {
 
@@ -49,6 +52,23 @@ class ApplicationTests {
         val time = LocalDateTime.of(2022, 2, 5, 15, 30)
         log.info(format.format(DateTimeUtil.INSTANCE.getEnd(time, ChronoUnit.MONTHS)))
     }
+}
+
+fun main() {
+    println("${LocalDateTime.now().second} start")
+    val task1 = CompletableFuture.supplyAsync {
+        Thread.sleep(1000 * 3)
+        "task1"
+    }
+
+    val task2 = CompletableFuture.supplyAsync  {
+        Thread.sleep(1000 * 2)
+        "task2"
+    }
+
+    CompletableFuture.allOf(task1, task2).thenAccept {
+        println("${LocalDateTime.now().second} ${task1.join()} ${task2.join()}")
+    }.join()
 }
 
 data class Tree(
