@@ -1,8 +1,8 @@
 # common
 
 ## todo
-- [ ] application event manage
-- [ ] jpa: helper, auto inc id, create & update, default value
+- [ ] jpa join
+- [ ] gateway filter
 
 - [ ] react-app
 - [ ] vue-app

@@ -23,10 +23,15 @@ class BookController(
     }
 
     @ApiMethod
-    @ApiRequestRateLimit(max = 2, seconds = 10)
-    @ApiAuth("hasRoles('admin', 'manager') && hasRoles('user')")
+//    @ApiRequestRateLimit(max = 2, seconds = 10)
+//    @ApiAuth("hasRoles('admin', 'manager') && hasRoles('user')")
     fun test(): List<Book> {
         return bookService.test()
+    }
+
+    @ApiMethod
+    fun save(@RequestBody book: Book): Book {
+        return bookService.save(book)
     }
 
 }

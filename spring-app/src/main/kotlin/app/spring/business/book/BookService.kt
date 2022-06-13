@@ -1,11 +1,11 @@
 package app.spring.business.book
 
-import app.spring.common.db.router.DB
+import app.spring.common.util.DataObjectUtil
 import app.spring.common.util.JdbcTemplateUtil
-import app.spring.config.data.DataSourceKey
+import org.springframework.beans.BeanUtils
 import org.springframework.data.domain.Page
-import org.springframework.data.domain.PageRequest
 import org.springframework.stereotype.Service
+import org.springframework.transaction.annotation.Transactional
 
 @Service
 class BookService(
@@ -17,17 +17,20 @@ class BookService(
         return bookRepository.save(book)
     }
 
-    @DB(DataSourceKey.DB2)
+//    @DB(DataSourceKey.DB2)
     fun customGetAll(): Page<Book> {
-        return jdbcTemplateUtil.paging("SELECT * FROM book ORDER BY id"
-            , PageRequest.of(0, 10)
-            , Book::class.java
-            , mapOf()
-        )
+        return bookRepository.customGetAll()
     }
 
 //    @DB(DataSourceKey.DB1)
+//    @Transactional(readOnly = true)
     fun test(): List<Book> {
-        return bookRepository.findAll()
+        val list = bookRepository.findAll()
+        return list
+    }
+
+    @Transactional
+    fun save(book: Book): Book {
+        return bookRepository.save(book)
     }
 }

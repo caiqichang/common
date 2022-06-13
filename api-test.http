@@ -25,3 +25,29 @@ GET http://localhost:8081/spring-app/book/test
 GET http://localhost:8081/spring-app/book/prop
 
 ###
+
+POST http://localhost:8081/spring-app/book/save
+Content-Type: application/json
+
+{
+    "id": "12345679",
+    "author": "mark",
+    "name": "abc",
+    "version": 0
+}
+
+###
+
+POST http://localhost:8081/spring-app/user/save
+Content-Type: application/json
+
+{
+    "name": "yee"
+}
+
+###
+
+GET http://localhost:8081/spring-app/user/list
+
+###
+
