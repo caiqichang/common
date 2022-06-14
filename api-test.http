@@ -30,10 +30,13 @@ POST http://localhost:8081/spring-app/book/save
 Content-Type: application/json
 
 {
-    "id": "12345679",
+    "id": "123468879",
     "author": "mark",
     "name": "abc",
-    "version": 0
+    "content": {
+        "title": "123",
+        "isbn": "8461531"
+    }
 }
 
 ###

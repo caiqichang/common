@@ -1,11 +1,6 @@
 package app.spring.business.author
 
-import app.spring.business.book.Book
 import app.spring.config.data.AutoIncrementId
-import com.fasterxml.jackson.annotation.JsonBackReference
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties
-import com.fasterxml.jackson.annotation.JsonManagedReference
-import org.hibernate.annotations.NaturalId
 import java.io.Serializable
 import javax.persistence.*
 
