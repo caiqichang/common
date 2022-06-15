@@ -9,7 +9,6 @@ import javax.persistence.*
 
 @EntityListeners(AuditingEntityListener::class)
 @Entity
-@NamedEntityGraph(name = "Book.withoutUser", attributeNodes = [NamedAttributeNode("user")])
 class Book : BaseEntity(), Serializable {
 
     @PrePersist
