@@ -36,7 +36,8 @@ Content-Type: application/json
     "content": {
         "title": "123",
         "isbn": "8461531"
-    }
+    },
+    "version": 1
 }
 
 ###

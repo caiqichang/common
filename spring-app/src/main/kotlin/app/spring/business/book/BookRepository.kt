@@ -11,7 +11,7 @@ import org.springframework.stereotype.Repository
 interface BookRepository : JpaRepository<Book, String>, BookRepositoryExtra {
     fun findAllByNameStartsWith(name: String): List<Book>
 
-    override fun findAll(): List<Book>
+    fun findAllByUserId(userId: Int): List<Book>
 }
 
 interface BookRepositoryExtra {

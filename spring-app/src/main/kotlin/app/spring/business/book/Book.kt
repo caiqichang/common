@@ -3,13 +3,12 @@ package app.spring.business.book
 import app.spring.business.author.User
 import app.spring.config.BaseEntity
 import org.springframework.data.jpa.domain.support.AuditingEntityListener
-import java.io.Serializable
 import java.time.LocalDateTime
 import javax.persistence.*
 
 @EntityListeners(AuditingEntityListener::class)
 @Entity
-class Book : BaseEntity(), Serializable {
+class Book : BaseEntity() {
 
     @PrePersist
     fun defaultValue() {
@@ -29,7 +28,8 @@ class Book : BaseEntity(), Serializable {
     @Convert(converter = BookContentConverter::class)
     var content: BookContent? = null
 
-    @ManyToOne
-    @JoinColumn(name = "userId", referencedColumnName = "bid")
+    var userId: Int? = null
+
+    @Transient
     var user: User? = null
 }

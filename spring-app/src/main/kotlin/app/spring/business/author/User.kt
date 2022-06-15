@@ -1,11 +1,11 @@
 package app.spring.business.author
 
+import app.spring.business.book.Book
 import app.spring.config.data.AutoIncrementId
-import java.io.Serializable
 import javax.persistence.*
 
 @Entity
-class User : Serializable {
+class User {
 
     companion object {
         private const val name_ = "User.id"
@@ -16,12 +16,13 @@ class User : Serializable {
     @TableGenerator(name = name_, pkColumnValue = name_,
             table = AutoIncrementId.tableName, allocationSize = 1,
             pkColumnName = AutoIncrementId.pkColumnName, valueColumnName = AutoIncrementId.valueColumnName)
-    val id: Int? = null
+    var id: Int? = null
 
-    val name: String? = null
+    var name: String? = null
 
-    val bid: Int? = null
+    var bid: Int? = null
 
-//    @OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
-//    val books: List<Book>? = null
+    @Transient
+    var books: List<Book>? = null
+
 }
