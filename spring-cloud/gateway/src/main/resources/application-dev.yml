@@ -1,5 +1,5 @@
 server:
-  port: 80
+  port: 8080
   servlet:
     context-path: /${spring.application.name}
 
@@ -9,12 +9,13 @@ spring:
       routes:
 
         - id: service1
+          order: 2
           predicates:
             - Path=${server.servlet.context-path}/service1/**
           filters:
             - PreserveHostHeader
             - RewritePath=${server.servlet.context-path}/service1/?(?<segment>.*), /service1/$\{segment}
-            - AddRequestHeader=fromClient, true
+            - Authentication
           uri: http://localhost:8081
 
         - id: service2
@@ -23,5 +24,14 @@ spring:
           filters:
             - PreserveHostHeader
             - RewritePath=${server.servlet.context-path}/service2/?(?<segment>.*), /service2/$\{segment}
-            - AddRequestHeader=fromClient, true
+            - Authentication
           uri: http://localhost:8082
+
+        - id: login
+          order: 1
+          predicates:
+            - Path=${server.servlet.context-path}/service1/test/login
+          filters:
+            - PreserveHostHeader
+            - RewritePath=${server.servlet.context-path}/service1/?(?<segment>.*), /service1/$\{segment}
+          uri: http://localhost:8081

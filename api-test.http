@@ -55,3 +55,7 @@ GET http://localhost:8081/spring-app/user/list
 
 ###
 
+GET http://localhost:8080/gateway/service1/test/t0
+token: 456123
+
+###

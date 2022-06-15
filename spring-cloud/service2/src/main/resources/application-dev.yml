@@ -6,4 +6,4 @@ server:
 eureka:
   client:
     service-url:
-      defaultZone: http://localhost:8080/discovery/eureka
+      defaultZone: http://localhost:8800/discovery/eureka

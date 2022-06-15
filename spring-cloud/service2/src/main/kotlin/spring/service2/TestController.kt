@@ -15,7 +15,7 @@ class TestController {
 
     @RequestMapping("/t0")
     fun t0(request: HttpServletRequest): String {
-        log.info(request.getHeader("fromClient"))
+        log.info(request.getHeader("fromGateway"))
         return "call service 2 t0"
     }
 }
