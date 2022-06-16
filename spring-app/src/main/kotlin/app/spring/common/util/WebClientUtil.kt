@@ -24,7 +24,7 @@ enum class WebClientUtil {
 
         if (convertTextAsJson) {
             builder.codecs { config ->
-                val om = if (customObjectMapper == null) {
+                val objectMapper = if (customObjectMapper == null) {
                     var defaultObjectMapper = initDefaultObjectMapper()
                     config.readers.forEach {
                         if (it.readableMediaTypes.contains(MediaType.APPLICATION_JSON)) {
@@ -36,7 +36,7 @@ enum class WebClientUtil {
                     defaultObjectMapper
                 } else customObjectMapper
 
-                config.customCodecs().registerWithDefaultConfig(Jackson2JsonDecoder(om, MediaType.TEXT_PLAIN))
+                config.customCodecs().registerWithDefaultConfig(Jackson2JsonDecoder(objectMapper, MediaType.TEXT_PLAIN))
             }
         }
 
