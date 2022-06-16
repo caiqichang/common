@@ -7,13 +7,17 @@ import app.spring.common.util.TreeUtil
 import com.fasterxml.jackson.databind.ObjectMapper
 import org.junit.jupiter.api.Test
 import org.slf4j.LoggerFactory
-import java.time.Instant
+import org.springframework.http.HttpHeaders
+import org.springframework.http.HttpMethod
+import org.springframework.web.client.RestTemplate
+import java.net.URI
+import java.nio.file.Files
+import java.nio.file.Path
+import java.nio.file.StandardCopyOption
 import java.time.LocalDateTime
-import java.time.Month
 import java.time.format.DateTimeFormatter
-import java.time.temporal.ChronoField
 import java.time.temporal.ChronoUnit
-import java.util.concurrent.CompletableFuture
+import java.util.regex.Pattern
 
 class ApplicationTests {
 
@@ -52,23 +56,23 @@ class ApplicationTests {
         val time = LocalDateTime.of(2022, 2, 5, 15, 30)
         log.info(format.format(DateTimeUtil.INSTANCE.getEnd(time, ChronoUnit.MONTHS)))
     }
-}
 
-fun main() {
-    println("${LocalDateTime.now().second} start")
-    val task1 = CompletableFuture.supplyAsync {
-        Thread.sleep(1000 * 3)
-        "task1"
+    private val pattern = Pattern.compile("filename=\"(.+)\"$")
+
+    @Test
+    fun downloadTest() {
+        RestTemplate().execute(
+            URI("http://localhost:2001/dgfy/pre/reportUpload/download?attachId=e04cf61d-4f93-4489-9b3d-9932a3cace8f"),
+            HttpMethod.GET,
+            null,
+        ) {
+            val disposition = it.headers[HttpHeaders.CONTENT_DISPOSITION]?.first().toString()
+            val matcher = pattern.matcher(disposition)
+            val fileName = if (matcher.find()) matcher.group(1) else "unknown"
+            Files.copy(it.body, Path.of("E:/DownloadFile/${fileName}"), StandardCopyOption.REPLACE_EXISTING)
+        }
     }
 
-    val task2 = CompletableFuture.supplyAsync  {
-        Thread.sleep(1000 * 2)
-        "task2"
-    }
-
-    CompletableFuture.allOf(task1, task2).thenAccept {
-        println("${LocalDateTime.now().second} ${task1.join()} ${task2.join()}")
-    }.join()
 }
 
 data class Tree(
