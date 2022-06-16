@@ -106,6 +106,17 @@
             <version>${poi.version}</version>
         </dependency>
 
+        <!-- just for testing -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-webflux</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.jetbrains.kotlinx</groupId>
+            <artifactId>kotlinx-coroutines-core</artifactId>
+        </dependency>
+        <!-- just for testing -->
+
     </dependencies>
 
     <build>

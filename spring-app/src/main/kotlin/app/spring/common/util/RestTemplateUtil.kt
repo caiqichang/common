@@ -62,12 +62,11 @@ enum class RestTemplateUtil {
     /**
      * resolve response body of text/plain as json
      */
-    fun convertPlainToJson(restTemplate: RestTemplate): RestTemplate {
+    fun convertPlainToJson(restTemplate: RestTemplate) {
         restTemplate.messageConverters.forEach {
             if (it is MappingJackson2HttpMessageConverter) {
                 it.supportedMediaTypes = listOf(MediaType.TEXT_PLAIN, MediaType.APPLICATION_JSON)
             }
         }
-        return restTemplate
     }
 }
