@@ -2,6 +2,7 @@ package app.spring.business.book
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import javax.persistence.AttributeConverter
+import javax.persistence.Converter
 
 class BookContent {
 
@@ -17,6 +18,7 @@ class BookContent {
     }
 }
 
+@Converter(autoApply = true)
 class BookContentConverter : AttributeConverter<BookContent, String> {
     override fun convertToDatabaseColumn(attribute: BookContent?): String? {
         if (attribute == null) return null

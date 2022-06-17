@@ -9,6 +9,7 @@ import org.springframework.data.domain.Page
 import org.springframework.data.domain.PageImpl
 import org.springframework.data.domain.Pageable
 import org.springframework.jdbc.core.BeanPropertyRowMapper
+import org.springframework.jdbc.core.RowMapper
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate
 import org.springframework.stereotype.Component
 
@@ -27,7 +28,7 @@ class JdbcTemplateUtil(
     val defaultKeywordWrapper = KeywordWrapper.INSTANCE.getWrapper(defaultDBType)
 
     fun <T> paging(
-        sql: String, pageable: Pageable, mappedClass: Class<T>, params: Map<String, Any> = emptyMap(), pagingWrapper: (String, Pageable) -> String = defaultPagingWrapper
+        sql: String, pageable: Pageable, rowMapper: RowMapper<T>, params: Map<String, Any> = emptyMap(), pagingWrapper: (String, Pageable) -> String = defaultPagingWrapper
     ): Page<T> {
         val total = namedParameterJdbcTemplate.queryForObject(
             "SELECT COUNT(*) FROM ( $sql ) AS BUSINESS_TABLE",
@@ -38,7 +39,7 @@ class JdbcTemplateUtil(
                 namedParameterJdbcTemplate.query(
                     pagingWrapper(sql, pageable),
                     params,
-                    BeanPropertyRowMapper.newInstance(mappedClass)
+                    rowMapper,
                 ), pageable, total
             )
         }
