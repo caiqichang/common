@@ -1,30 +1,23 @@
 package app.spring
 
-import app.spring.business.book.Book
 import app.spring.common.util.CryptoUtil
 import app.spring.common.util.DataObjectUtil
 import app.spring.common.util.DateTimeUtil
 import app.spring.common.util.TreeUtil
-import com.fasterxml.jackson.databind.DeserializationFeature
 import com.fasterxml.jackson.databind.ObjectMapper
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
 import org.junit.jupiter.api.Test
 import org.slf4j.LoggerFactory
+import org.springframework.core.io.buffer.DataBuffer
+import org.springframework.core.io.buffer.DataBufferUtils
 import org.springframework.http.HttpHeaders
 import org.springframework.http.HttpMethod
-import org.springframework.http.MediaType
-import org.springframework.http.codec.DecoderHttpMessageReader
-import org.springframework.http.codec.json.Jackson2JsonDecoder
-import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder
 import org.springframework.web.client.RestTemplate
-import org.springframework.web.reactive.function.client.ExchangeStrategies
 import org.springframework.web.reactive.function.client.WebClient
-import org.springframework.web.reactive.function.client.toEntity
 import java.net.URI
 import java.nio.file.Files
 import java.nio.file.Path
 import java.nio.file.StandardCopyOption
+import java.nio.file.StandardOpenOption
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import java.time.temporal.ChronoUnit
@@ -71,7 +64,7 @@ class ApplicationTests {
     private val pattern = Pattern.compile("filename=\"(.+)\"$")
 
     @Test
-    fun downloadTest() {
+    fun downloadByRestTemplate() {
         RestTemplate().execute(
             URI("http://localhost:2001/dgfy/pre/reportUpload/download?attachId=e04cf61d-4f93-4489-9b3d-9932a3cace8f"),
             HttpMethod.GET,
@@ -85,27 +78,17 @@ class ApplicationTests {
     }
 
     @Test
-    fun coroutines() {
-        val response = WebClient.builder()
-            .codecs { config ->
-                var objectMapper = ObjectMapper()
-                objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
-
-                config.readers.forEach {
-                    if (it.readableMediaTypes.contains(MediaType.APPLICATION_JSON)) {
-                        if (it is DecoderHttpMessageReader && it.decoder is Jackson2JsonDecoder) {
-                            objectMapper = (it.decoder as Jackson2JsonDecoder).objectMapper
-                        }
-                    }
-                }
-
-                config.customCodecs().registerWithDefaultConfig(Jackson2JsonDecoder(objectMapper, MediaType.TEXT_PLAIN))
-            }.build()
+    fun downloadByWebClient() {
+        WebClient.create()
             .get()
-            .uri("http://localhost:8081/spring-app/user/webclient")
-            .retrieve().toEntity<Book>().block()
-
-        log.info(response?.body?.id)
+            .uri("http://localhost:2001/dgfy/pre/reportUpload/download?attachId=e04cf61d-4f93-4489-9b3d-9932a3cace8f")
+            .exchangeToMono {
+                val disposition = it.headers().header(HttpHeaders.CONTENT_DISPOSITION).first()
+                val matcher = pattern.matcher(disposition)
+                val fileName = if (matcher.find()) matcher.group(1) else "unknown"
+                DataBufferUtils.write(it.bodyToFlux(DataBuffer::class.java), Path.of("E:/DownloadFile/${fileName}"), StandardOpenOption.CREATE)
+            }
+            .block()
     }
 }
 

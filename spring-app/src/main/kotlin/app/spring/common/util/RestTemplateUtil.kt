@@ -14,10 +14,10 @@ enum class RestTemplateUtil {
     INSTANCE;
 
     /**
-     * @param ignoreSSL
+     * @param ignoreSSL trust all HTTPS request if true
      * @param timeout unit is milliseconds. if lower than 0, set to default
      */
-    fun custom(
+    fun config(
         ignoreSSL: Boolean = false,
         timeout: Int = -1,
     ): RestTemplate {
