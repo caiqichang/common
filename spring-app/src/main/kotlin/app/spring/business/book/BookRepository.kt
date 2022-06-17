@@ -36,8 +36,6 @@ class BookRepositoryExtraImpl(
                         return BookContentConverter().convertToEntityAttribute(source)
                     }
                 })
-
-//                addConverter(Converter<String, BookContent> { BookContentConverter().convertToEntityAttribute(it) })
             }),
             mapOf(),
         )
