@@ -1,6 +1,7 @@
 package app.spring.business.book
 
 import app.spring.common.util.JdbcTemplateUtil
+import org.slf4j.LoggerFactory
 import org.springframework.core.convert.converter.Converter
 import org.springframework.core.convert.support.DefaultConversionService
 import org.springframework.data.domain.Page
@@ -26,17 +27,15 @@ class BookRepositoryExtraImpl(
     private val jdbcTemplateUtil: JdbcTemplateUtil,
 ) : BookRepositoryExtra {
 
+    companion object {
+        private val log = LoggerFactory.getLogger(BookRepositoryExtraImpl::class.java)
+    }
+
     override fun customGetAll(): Page<Book> {
         return jdbcTemplateUtil.paging(
             "SELECT * FROM book ORDER BY id",
             PageRequest.of(0, 10),
-            BeanPropertyRowMapper.newInstance(Book::class.java, DefaultConversionService().apply {
-                addConverter(object : Converter<String, BookContent> {
-                    override fun convert(source: String): BookContent? {
-                        return BookContentConverter().convertToEntityAttribute(source)
-                    }
-                })
-            }),
+            Book.rowMapper(),
             mapOf(),
         )
     }
