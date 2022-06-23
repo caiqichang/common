@@ -18,4 +18,4 @@ class ProjectProperties(
     @Value("\${spring.datasource.url:}")
     val springDatasourceUrl: String,
 
-)
+    )

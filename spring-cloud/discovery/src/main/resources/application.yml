@@ -1,6 +1,6 @@
 spring:
   application:
-    name: @project.name@
+    name: discovery
   profiles:
     active: dev
     group:

@@ -1,6 +1,6 @@
 spring:
   application:
-    name: @project.name@
+    name: gateway
   profiles:
     active: dev
     group:

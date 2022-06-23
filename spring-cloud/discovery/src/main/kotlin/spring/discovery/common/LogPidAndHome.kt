@@ -1,6 +1,5 @@
 package spring.discovery.common
 
-import spring.discovery.config.data.ProjectProperties
 import org.slf4j.LoggerFactory
 import org.springframework.boot.context.event.ApplicationReadyEvent
 import org.springframework.boot.system.ApplicationPid
@@ -8,6 +7,7 @@ import org.springframework.context.event.EventListener
 import org.springframework.core.Ordered
 import org.springframework.core.annotation.Order
 import org.springframework.stereotype.Component
+import spring.discovery.config.data.ProjectProperties
 
 @Component
 class LogPidAndHome(

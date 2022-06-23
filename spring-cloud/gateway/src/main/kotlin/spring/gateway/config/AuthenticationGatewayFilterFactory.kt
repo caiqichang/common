@@ -4,12 +4,10 @@ import org.slf4j.LoggerFactory
 import org.springframework.cloud.gateway.filter.GatewayFilter
 import org.springframework.cloud.gateway.filter.GatewayFilterChain
 import org.springframework.cloud.gateway.filter.factory.AbstractGatewayFilterFactory
-import org.springframework.core.io.buffer.DataBuffer
 import org.springframework.http.HttpHeaders
 import org.springframework.http.HttpMethod
 import org.springframework.http.HttpStatus
 import org.springframework.http.MediaType
-import org.springframework.http.server.reactive.ServerHttpResponseDecorator
 import org.springframework.stereotype.Component
 import org.springframework.web.server.ServerWebExchange
 import reactor.core.publisher.Flux
@@ -32,17 +30,21 @@ class AuthenticationGatewayFilterFactory : AbstractGatewayFilterFactory<Authenti
                 log.info(token.toString())
                 val mutableExchange = exchange.request.mutate().header("token", "admin").build()
                 chain.filter(exchange.mutate().request(mutableExchange).build())
-            }else {
+            } else {
                 exchange.response.statusCode = HttpStatus.OK
                 exchange.response.headers[HttpHeaders.CONTENT_TYPE] = "${MediaType.APPLICATION_JSON_VALUE};charset=${StandardCharsets.UTF_8}"
-                exchange.response.writeWith(Flux.just(
-                    exchange.response.bufferFactory().wrap("""
+                exchange.response.writeWith(
+                    Flux.just(
+                        exchange.response.bufferFactory().wrap(
+                            """
                         {
                           "state": "ERROR",
                           "message": "Authentication Failed"
                         }
-                    """.trimIndent().toByteArray())
-                ))
+                    """.trimIndent().toByteArray()
+                        )
+                    )
+                )
             }
         }
     }
