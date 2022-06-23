@@ -1,6 +1,11 @@
 package app.spring.common.util
 
-import java.security.*
+import java.security.Key
+import java.security.KeyFactory
+import java.security.KeyPairGenerator
+import java.security.PrivateKey
+import java.security.PublicKey
+import java.security.SecureRandom
 import java.security.spec.PKCS8EncodedKeySpec
 import java.security.spec.X509EncodedKeySpec
 import java.util.*
@@ -103,7 +108,7 @@ ${Base64.getMimeEncoder().encodeToString(getPrivateKeyFromBase64(base64Key).enco
             key.replace(Regex("-----(BEGIN|END)(.*)-----"), "")
                 .replace("\r\n", "")
                 .replace("\n", "")
-        }else key
+        } else key
     }
 }
 

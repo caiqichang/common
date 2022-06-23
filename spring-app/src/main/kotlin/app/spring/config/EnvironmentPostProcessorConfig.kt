@@ -19,7 +19,7 @@ class EnvironmentPostProcessorConfig : EnvironmentPostProcessor {
                     it.source.forEach { (k, v) ->
                         val matcher = pattern.matcher(v.toString())
                         newProperties[k] = if (matcher.find())
-                             CryptoUtil.INSTANCE.decryptByAes(matcher.group(1), ProjectConstants.propertyAesKey)
+                            CryptoUtil.INSTANCE.decryptByAes(matcher.group(1), ProjectConstants.propertyAesKey)
                         else v
                     }
 

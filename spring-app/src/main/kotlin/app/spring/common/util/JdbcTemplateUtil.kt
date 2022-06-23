@@ -8,7 +8,6 @@ import app.spring.config.data.ProjectProperties
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.PageImpl
 import org.springframework.data.domain.Pageable
-import org.springframework.jdbc.core.BeanPropertyRowMapper
 import org.springframework.jdbc.core.RowMapper
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate
 import org.springframework.stereotype.Component
@@ -43,16 +42,16 @@ class JdbcTemplateUtil(
                 ), pageable, total
             )
         }
-        return PageImpl(emptyList(), pageable, 0L)
+        return PageImpl(mutableListOf(), pageable, 0L)
     }
 
     fun <T> topN(
-        sql: String, n: Int, mappedClass: Class<T>, params: Map<String, Any> = emptyMap(), topNWrapper: (String, Int) -> String = defaultTopNWrapper
+        sql: String, n: Int, rowMapper: RowMapper<T>, params: Map<String, Any> = emptyMap(), topNWrapper: (String, Int) -> String = defaultTopNWrapper
     ): List<T> {
         return namedParameterJdbcTemplate.query(
             topNWrapper(sql, n),
             params,
-            BeanPropertyRowMapper.newInstance(mappedClass)
+            rowMapper,
         )
     }
 }

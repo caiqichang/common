@@ -11,7 +11,7 @@ enum class KeywordWrapper {
     }
 
     fun getWrapper(dbType: DBType?): Pair<String, String> {
-        return when(dbType) {
+        return when (dbType) {
             DBType.MySQL -> "`" to "`"
             DBType.SQLServer -> "[" to "]"
             DBType.Postgresql -> "\"" to "\""

@@ -12,7 +12,7 @@ enum class DBType(
 
     companion object {
         fun fromJdbcName(jdbcName: String): DBType? {
-            return run scope@ {
+            return run scope@{
                 DBType.values().forEach {
                     if (it.jdbcName == jdbcName) return@scope it
                 }

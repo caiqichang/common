@@ -27,7 +27,7 @@ class ApiMethodResultHandler(
         return if (body is String) {
             // text/plain will not be converted to json automatically
             objectMapper.writeValueAsString(ApiResult(data = body))
-        }else {
+        } else {
             ApiResult(data = body)
         }
     }

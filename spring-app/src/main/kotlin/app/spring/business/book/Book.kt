@@ -9,8 +9,13 @@ import org.springframework.http.HttpMethod
 import org.springframework.jdbc.core.BeanPropertyRowMapper
 import org.springframework.jdbc.core.RowMapper
 import java.time.LocalDateTime
-import javax.persistence.*
-import kotlin.jvm.Transient
+import javax.persistence.Column
+import javax.persistence.Entity
+import javax.persistence.EntityListeners
+import javax.persistence.EnumType
+import javax.persistence.Enumerated
+import javax.persistence.Id
+import javax.persistence.PrePersist
 
 @EntityListeners(AuditingEntityListener::class)
 @Entity

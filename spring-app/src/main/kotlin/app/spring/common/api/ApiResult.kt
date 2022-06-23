@@ -1,7 +1,7 @@
 package app.spring.common.api
 
 data class ApiResult<T>(
-    val state : ApiState = ApiState.OK,
+    val state: ApiState = ApiState.OK,
     val message: String? = null,
     val data: T? = null,
 )

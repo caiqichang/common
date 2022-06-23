@@ -21,7 +21,7 @@ class DisableBeanConfig : BeanDefinitionRegistryPostProcessor {
 
     override fun postProcessBeanDefinitionRegistry(registry: BeanDefinitionRegistry) {
         registry.beanDefinitionNames.forEach {
-            if (listOfDisableBeans.contains(it)) registry.removeBeanDefinition(it)
+            if (it in listOfDisableBeans) registry.removeBeanDefinition(it)
         }
     }
 

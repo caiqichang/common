@@ -1,8 +1,6 @@
 package app.spring.business.book
 
-import app.spring.common.util.DataObjectUtil
 import app.spring.common.util.JdbcTemplateUtil
-import org.springframework.beans.BeanUtils
 import org.springframework.data.domain.Page
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
@@ -17,12 +15,12 @@ class BookService(
         return bookRepository.save(book)
     }
 
-//    @DB(DataSourceKey.DB2)
+    //    @DB(DataSourceKey.DB2)
     fun customGetAll(): Page<Book> {
         return bookRepository.customGetAll()
     }
 
-//    @DB(DataSourceKey.DB1)
+    //    @DB(DataSourceKey.DB1)
 //    @Transactional(readOnly = true)
     fun test(): List<Book> {
         val list = bookRepository.findAll()

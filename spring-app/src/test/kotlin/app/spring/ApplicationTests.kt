@@ -5,6 +5,7 @@ import app.spring.common.util.DataObjectUtil
 import app.spring.common.util.DateTimeUtil
 import app.spring.common.util.TreeUtil
 import com.fasterxml.jackson.databind.ObjectMapper
+import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
 import org.slf4j.LoggerFactory
 import org.springframework.core.io.buffer.DataBuffer
@@ -89,6 +90,15 @@ class ApplicationTests {
                 DataBufferUtils.write(it.bodyToFlux(DataBuffer::class.java), Path.of("E:/DownloadFile/${fileName}"), StandardOpenOption.CREATE)
             }
             .block()
+    }
+
+    @Test
+    fun mapTest() {
+        val m = mapOf(
+            "a" to 1,
+            "b" to 2,
+        )
+        Assertions.assertTrue("a" in m)
     }
 }
 

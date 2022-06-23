@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.ResponseBody
 
 @ApiController
 class UserController(
-        private val userService: UserService,
+    private val userService: UserService,
 ) {
     companion object {
         private val log = LoggerFactory.getLogger(UserController::class.java)

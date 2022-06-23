@@ -2,12 +2,9 @@ package app.spring.business.book
 
 import app.spring.common.util.JdbcTemplateUtil
 import org.slf4j.LoggerFactory
-import org.springframework.core.convert.converter.Converter
-import org.springframework.core.convert.support.DefaultConversionService
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.PageRequest
 import org.springframework.data.jpa.repository.JpaRepository
-import org.springframework.jdbc.core.BeanPropertyRowMapper
 import org.springframework.stereotype.Component
 import org.springframework.stereotype.Repository
 

@@ -24,7 +24,7 @@ enum class TopNWrapper {
                 return@value "$sql LIMIT $n"
             },
 
-        )[dbType] ?: value@{ sql, _ ->
+            )[dbType] ?: value@{ sql, _ ->
             log.warn("TopN wrapper not found")
             return@value sql
         }

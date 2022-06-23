@@ -45,4 +45,4 @@ annotation class ApiController(
     @get:AliasFor("produces", annotation = RequestMapping::class)
     val produces: Array<String> = [],
 
-)
+    )

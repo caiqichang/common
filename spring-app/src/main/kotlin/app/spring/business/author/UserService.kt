@@ -7,8 +7,8 @@ import org.springframework.transaction.annotation.Transactional
 
 @Service
 class UserService(
-        private val userRepository: UserRepository,
-        private val bookRepository: BookRepository,
+    private val userRepository: UserRepository,
+    private val bookRepository: BookRepository,
 ) {
 
     companion object {
@@ -20,13 +20,13 @@ class UserService(
         return userRepository.save(user)
     }
 
-//    @Transactional(readOnly = true)
+    //    @Transactional(readOnly = true)
     fun findAll(): List<User> {
         val list = userRepository.findAll()
         list.parallelStream().forEach {
-           it.bid?.run {
-               it.books = bookRepository.findAllByUserId(this)
-           }
+            it.bid?.run {
+                it.books = bookRepository.findAllByUserId(this)
+            }
         }
         return list
     }

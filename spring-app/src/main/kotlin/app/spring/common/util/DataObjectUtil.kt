@@ -3,7 +3,7 @@ package app.spring.common.util
 import com.fasterxml.jackson.databind.ObjectMapper
 
 class DataObjectUtil(
-   val om: ObjectMapper = ObjectMapper(),
+    val om: ObjectMapper = ObjectMapper(),
 ) {
     inline fun <reified T> copy(t: T): T {
         return om.readValue(om.writeValueAsString(t), T::class.java)

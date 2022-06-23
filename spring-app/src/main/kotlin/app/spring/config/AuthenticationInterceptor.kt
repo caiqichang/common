@@ -24,7 +24,7 @@ class AuthenticationInterceptor(
     init {
         // exclude websocket paths
         authenticationWebSocketInterceptor.webSocketHandlers.forEach {
-            excludePaths.addAll(it.getPaths())
+            excludePaths += it.getPaths()
         }
     }
 

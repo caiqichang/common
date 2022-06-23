@@ -33,8 +33,8 @@ enum class WebClientUtil {
         if (convertTextAsJson) {
             builder.codecs { config ->
                 var objectMapper = defaultObjectMapper
-                config.readers.forEach {it ->
-                    if (it.readableMediaTypes.contains(MediaType.APPLICATION_JSON)) {
+                config.readers.forEach { it ->
+                    if (MediaType.APPLICATION_JSON in it.readableMediaTypes) {
                         if (it is DecoderHttpMessageReader && it.decoder is Jackson2JsonDecoder) {
                             objectMapper = (it.decoder as Jackson2JsonDecoder).objectMapper
                         }

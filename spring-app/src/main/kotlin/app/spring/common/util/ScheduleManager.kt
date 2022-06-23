@@ -27,7 +27,7 @@ class ScheduleManager {
         val task = tasks[taskId]
         if (task != null) {
             task.cancel(true)
-            tasks.remove(taskId)
+            tasks -= taskId
             return true
         }
         log.warn("[$taskId] task is not running")
@@ -35,7 +35,7 @@ class ScheduleManager {
     }
 
     fun startTask(taskId: String, cb: (ThreadPoolTaskScheduler) -> ScheduledFuture<*>): Boolean {
-        if (!tasks.containsKey(taskId)) {
+        if (taskId !in tasks.keys) {
             tasks[taskId] = cb.invoke(scheduler)
             return true
         }

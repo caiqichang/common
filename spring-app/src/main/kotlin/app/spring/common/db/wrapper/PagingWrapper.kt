@@ -63,7 +63,7 @@ enum class PagingWrapper {
                 """.trimIndent()
             },
 
-        )[dbType] ?: value@{ sql, _ ->
+            )[dbType] ?: value@{ sql, _ ->
             log.warn("Paging wrapper not found")
             return@value sql
         }
