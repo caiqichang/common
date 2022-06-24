@@ -94,11 +94,12 @@ class ApplicationTests {
 
     @Test
     fun mapTest() {
-        val m = mapOf(
-            "a" to 1,
-            "b" to 2,
-        )
-        Assertions.assertTrue("a" in m)
+//        val avg: (Int, Int) -> Int = { x, y -> (x and y) + ((x xor y) shr 1) }
+//        Assertions.assertEquals(4, avg(5, 4))
+
+        var m = mapOf("a" to 1, "b" to 2)
+        m += listOf("c" to 3, "d" to 4)
+        log.info(m.toString())
     }
 }
 

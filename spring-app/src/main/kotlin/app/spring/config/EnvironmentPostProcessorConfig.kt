@@ -10,22 +10,40 @@ import java.util.regex.Pattern
 
 class EnvironmentPostProcessorConfig : EnvironmentPostProcessor {
 
+    companion object {
+        private val pattern = Pattern.compile("AES\\[(.+)]")
+    }
+
     override fun postProcessEnvironment(environment: ConfigurableEnvironment?, application: SpringApplication?) {
-        val pattern = Pattern.compile("AES\\[(.+)]")
+
         environment?.propertySources?.run {
             forEach {
                 if (it is OriginTrackedMapPropertySource) {
-                    val newProperties = mutableMapOf<String, Any>()
-                    it.source.forEach { (k, v) ->
-                        val matcher = pattern.matcher(v.toString())
-                        newProperties[k] = if (matcher.find())
-                            CryptoUtil.INSTANCE.decryptByAes(matcher.group(1), ProjectConstants.propertyAesKey)
-                        else v
-                    }
-
-                    replace(it.name, OriginTrackedMapPropertySource(it.name, newProperties, true))
+                    val newSource = mutableMapOf<String, Any>()
+                    it.source.forEach { (k, v) -> newSource[k] = overwriteProperty(k, v) }
+                    replace(it.name, OriginTrackedMapPropertySource(it.name, newSource, true))
                 }
             }
+
+            addFirst(OriginTrackedMapPropertySource("${Math.random()}", addNewProperties(), true))
         }
+    }
+
+    private fun overwriteProperty(key: String, value: Any): Any {
+        val matcher = pattern.matcher(value.toString())
+        if (matcher.find())
+            return CryptoUtil.INSTANCE.decryptByAes(matcher.group(1), ProjectConstants.propertyAesKey)
+
+        // overwrite properties here
+
+        return value
+    }
+
+    private fun addNewProperties(): Map<String, Any> {
+        val newProperties = mutableMapOf<String, Any>()
+
+        // add new properties here
+
+        return newProperties
     }
 }
