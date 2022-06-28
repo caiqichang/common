@@ -15,7 +15,6 @@ class EnvironmentPostProcessorConfig : EnvironmentPostProcessor {
     }
 
     override fun postProcessEnvironment(environment: ConfigurableEnvironment?, application: SpringApplication?) {
-
         environment?.propertySources?.run {
             forEach {
                 if (it is OriginTrackedMapPropertySource) {
