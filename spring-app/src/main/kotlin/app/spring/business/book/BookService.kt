@@ -1,6 +1,9 @@
 package app.spring.business.book
 
 import app.spring.common.util.JdbcTemplateUtil
+import app.spring.config.data.CacheNames
+import org.springframework.cache.annotation.CacheEvict
+import org.springframework.cache.annotation.Cacheable
 import org.springframework.data.domain.Page
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
@@ -15,6 +18,7 @@ class BookService(
         return bookRepository.save(book)
     }
 
+    @Cacheable(cacheNames = [CacheNames.bookCache])
     //    @DB(DataSourceKey.DB2)
     fun customGetAll(): Page<Book> {
         return bookRepository.customGetAll()
@@ -27,8 +31,12 @@ class BookService(
         return list
     }
 
+    @CacheEvict(cacheNames = [CacheNames.bookCache], allEntries = true)
     @Transactional
     fun save(book: Book): Book {
         return bookRepository.save(book)
     }
+
 }
+
+
