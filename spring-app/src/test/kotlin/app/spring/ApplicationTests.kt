@@ -5,7 +5,11 @@ import app.spring.common.util.DataObjectUtil
 import app.spring.common.util.DateTimeUtil
 import app.spring.common.util.TreeUtil
 import com.fasterxml.jackson.databind.ObjectMapper
-import org.junit.jupiter.api.Assertions
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.withContext
 import org.junit.jupiter.api.Test
 import org.slf4j.LoggerFactory
 import org.springframework.core.io.buffer.DataBuffer
@@ -14,6 +18,8 @@ import org.springframework.http.HttpHeaders
 import org.springframework.http.HttpMethod
 import org.springframework.web.client.RestTemplate
 import org.springframework.web.reactive.function.client.WebClient
+import org.springframework.web.reactive.function.client.awaitBody
+import org.springframework.web.reactive.function.client.bodyToMono
 import java.net.URI
 import java.nio.file.Files
 import java.nio.file.Path
@@ -100,6 +106,36 @@ class ApplicationTests {
         var m = mapOf("a" to 1, "b" to 2)
         m += listOf("c" to 3, "d" to 4)
         log.info(m.toString())
+    }
+}
+
+fun main() {
+    val log = LoggerFactory.getLogger(Tree::class.java)
+
+    log.info("---- start")
+
+    runBlocking {
+        launch {
+            task(10)
+        }
+        launch {
+            task(9)
+        }
+    }
+
+    log.info("---- end")
+}
+
+suspend fun task(t: Int) {
+    val log = LoggerFactory.getLogger(Tree::class.java)
+
+    log.info("---- ${t}")
+
+//    delay(t * 1000L)
+
+    withContext(Dispatchers.IO) {
+        val response = WebClient.create().get().uri("http://localhost:8081/spring-app/user/delay?t=${t}").retrieve().bodyToMono<String>()
+        log.info(response.block())
     }
 }
 
