@@ -3,12 +3,9 @@ package app.spring.common.db.wrapper
 import app.spring.common.db.DBType
 import org.slf4j.LoggerFactory
 
-enum class TopNWrapper {
-    INSTANCE;
+object TopNWrapper {
 
-    companion object {
-        private val log = LoggerFactory.getLogger(PagingWrapper::class.java)
-    }
+    private val log = LoggerFactory.getLogger(TopNWrapper::class.java)
 
     fun getWrapper(dbType: DBType?): (String, Int) -> String {
         return mapOf(

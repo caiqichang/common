@@ -1,8 +1,6 @@
 package app.spring.common.util
 
-class TreeUtil(
-    val dataObjectUtil: DataObjectUtil = DataObjectUtil(),
-) {
+object TreeUtil {
 
     /**
      * root first looping
@@ -50,7 +48,7 @@ class TreeUtil(
         comparator: Comparator<T>?,
     ): MutableList<T> {
         val tree = mutableListOf<T>()
-        val copy = dataObjectUtil.copyList(list)
+        val copy = DataObjectUtil.copyList(list)
         val map = copy.groupBy(id)
 
         copy.forEach {

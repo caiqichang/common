@@ -2,10 +2,9 @@ package app.spring.common.util
 
 import com.fasterxml.jackson.databind.ObjectMapper
 
-class DataObjectUtil(
-    val om: ObjectMapper = ObjectMapper(),
-) {
+object DataObjectUtil {
     inline fun <reified T> copy(t: T): T {
+        val om = SpringUtil.getBean(ObjectMapper::class.java) ?: ObjectMapper()
         return om.readValue(om.writeValueAsString(t), T::class.java)
     }
 
@@ -14,6 +13,7 @@ class DataObjectUtil(
     }
 
     fun toMap(obj: Any): Map<String, Any?> {
+        val om = SpringUtil.getBean(ObjectMapper::class.java) ?: ObjectMapper()
         val map = mutableMapOf<String, Any?>()
         toMapHelper(obj, om) { k, v ->
             map[k] = v
@@ -22,6 +22,7 @@ class DataObjectUtil(
     }
 
     fun toStringMap(obj: Any): Map<String, String?> {
+        val om = SpringUtil.getBean(ObjectMapper::class.java) ?: ObjectMapper()
         val map = mutableMapOf<String, String?>()
         toMapHelper(obj, om) { k, v ->
             map[k] = v?.toString()

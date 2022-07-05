@@ -10,8 +10,7 @@ import javax.net.ssl.HttpsURLConnection
 import javax.net.ssl.SSLContext
 import javax.net.ssl.X509TrustManager
 
-enum class RestTemplateUtil {
-    INSTANCE;
+object RestTemplateUtil {
 
     /**
      * @param ignoreSSL trust all HTTPS request if true

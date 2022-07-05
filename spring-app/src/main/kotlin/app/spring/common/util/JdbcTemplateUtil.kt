@@ -22,9 +22,9 @@ class JdbcTemplateUtil(
         if (it.size > 1) DBType.fromJdbcName(it[1]) else null
     }
 
-    private val defaultPagingWrapper = PagingWrapper.INSTANCE.getWrapper(defaultDBType)
-    private val defaultTopNWrapper = TopNWrapper.INSTANCE.getWrapper(defaultDBType)
-    val defaultKeywordWrapper = KeywordWrapper.INSTANCE.getWrapper(defaultDBType)
+    private val defaultPagingWrapper = PagingWrapper.getWrapper(defaultDBType)
+    private val defaultTopNWrapper = TopNWrapper.getWrapper(defaultDBType)
+    val defaultKeywordWrapper = KeywordWrapper.getWrapper(defaultDBType)
 
     fun <T> paging(
         sql: String, pageable: Pageable, rowMapper: RowMapper<T>, params: Map<String, Any> = emptyMap(), pagingWrapper: (String, Pageable) -> String = defaultPagingWrapper

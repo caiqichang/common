@@ -31,7 +31,7 @@ class EnvironmentPostProcessorConfig : EnvironmentPostProcessor {
     private fun overwriteProperty(key: String, value: Any): Any {
         val matcher = pattern.matcher(value.toString())
         if (matcher.find())
-            return CryptoUtil.INSTANCE.decryptByAes(matcher.group(1), ProjectConstants.propertyAesKey)
+            return CryptoUtil.decryptByAes(matcher.group(1), ProjectConstants.propertyAesKey)
 
         // overwrite properties here
 

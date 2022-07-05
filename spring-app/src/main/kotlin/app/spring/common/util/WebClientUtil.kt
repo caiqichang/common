@@ -11,8 +11,7 @@ import org.springframework.http.codec.json.Jackson2JsonDecoder
 import org.springframework.web.reactive.function.client.WebClient
 import reactor.netty.http.client.HttpClient
 
-enum class WebClientUtil {
-    INSTANCE;
+object WebClientUtil {
 
     private val defaultObjectMapper = ObjectMapper()
 

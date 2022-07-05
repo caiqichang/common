@@ -3,8 +3,7 @@ package app.spring.common.util
 import java.net.URLEncoder
 import java.nio.charset.StandardCharsets
 
-enum class UrlUtil {
-    INSTANCE;
+object UrlUtil {
 
     /**
      * Encode URL query parameters

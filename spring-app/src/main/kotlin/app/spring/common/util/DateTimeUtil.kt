@@ -5,8 +5,7 @@ import java.time.Month
 import java.time.temporal.ChronoUnit
 import java.time.temporal.TemporalAdjusters
 
-enum class DateTimeUtil {
-    INSTANCE;
+object DateTimeUtil {
 
     fun getStart(dateTime: LocalDateTime, unit: ChronoUnit = ChronoUnit.DAYS): LocalDateTime {
         return when (unit) {

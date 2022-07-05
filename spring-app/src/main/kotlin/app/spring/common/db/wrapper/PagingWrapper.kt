@@ -4,12 +4,9 @@ import app.spring.common.db.DBType
 import org.slf4j.LoggerFactory
 import org.springframework.data.domain.Pageable
 
-enum class PagingWrapper {
-    INSTANCE;
+object PagingWrapper {
 
-    companion object {
-        private val log = LoggerFactory.getLogger(PagingWrapper::class.java)
-    }
+    private val log = LoggerFactory.getLogger(PagingWrapper::class.java)
 
     fun getWrapper(dbType: DBType?): (String, Pageable) -> String {
         return mapOf(

@@ -2,15 +2,11 @@ package app.spring.common.util
 
 import org.slf4j.LoggerFactory
 import org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler
-import org.springframework.stereotype.Component
 import java.util.concurrent.ScheduledFuture
 
-@Component
-class ScheduleManager {
+object ScheduleManager {
 
-    companion object {
-        private val log = LoggerFactory.getLogger(ScheduleManager::class.java)
-    }
+    private val log = LoggerFactory.getLogger(ScheduleManager::class.java)
 
     private val tasks = mutableMapOf<String, ScheduledFuture<*>>()
     private val scheduler = ThreadPoolTaskScheduler()

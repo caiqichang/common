@@ -1,8 +1,7 @@
 package app.spring.config.data
 
-interface CacheNames {
+object CacheNames {
 
-    companion object {
-        const val bookCache = "bookCache"
-    }
+    const val bookCache = "bookCache"
+
 }

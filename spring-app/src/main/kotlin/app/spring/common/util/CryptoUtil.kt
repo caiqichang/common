@@ -15,17 +15,16 @@ import javax.crypto.SecretKeyFactory
 import javax.crypto.spec.PBEKeySpec
 import javax.crypto.spec.SecretKeySpec
 
-enum class CryptoUtil {
-    INSTANCE;
+object CryptoUtil {
 
     fun generateRandomAesKey(): String {
         val keyGenerator = KeyGenerator.getInstance("AES")
         keyGenerator.init(128, SecureRandom())
-        return encodeKeyTOBase64(keyGenerator.generateKey())
+        return encodeKeyToBase64(keyGenerator.generateKey())
     }
 
     fun generateAesKey(keyword: String, salt: String): String {
-        return encodeKeyTOBase64(
+        return encodeKeyToBase64(
             SecretKeyFactory.getInstance("PBKDF2WithHmacSHA1")
                 .generateSecret(PBEKeySpec(keyword.toCharArray(), salt.toByteArray(), 1000, 128))
         )
@@ -48,8 +47,8 @@ enum class CryptoUtil {
         keyPairGenerator.initialize(1024)
         val keyPair = keyPairGenerator.generateKeyPair()
         return RsaKeyPair(
-            publicKey = encodeKeyTOBase64(keyPair.public),
-            privateKey = encodeKeyTOBase64(keyPair.private),
+            publicKey = encodeKeyToBase64(keyPair.public),
+            privateKey = encodeKeyToBase64(keyPair.private),
         )
     }
 
@@ -83,7 +82,7 @@ ${Base64.getMimeEncoder().encodeToString(getPrivateKeyFromBase64(base64Key).enco
         return String(cipher.doFinal(Base64.getDecoder().decode(content)))
     }
 
-    private fun encodeKeyTOBase64(key: Key): String {
+    private fun encodeKeyToBase64(key: Key): String {
         return Base64.getEncoder().encodeToString(key.encoded)
     }
 

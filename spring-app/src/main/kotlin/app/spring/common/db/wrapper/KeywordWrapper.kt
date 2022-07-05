@@ -3,12 +3,9 @@ package app.spring.common.db.wrapper
 import app.spring.common.db.DBType
 import org.slf4j.LoggerFactory
 
-enum class KeywordWrapper {
-    INSTANCE;
+object KeywordWrapper {
 
-    companion object {
-        private val log = LoggerFactory.getLogger(PagingWrapper::class.java)
-    }
+    private val log = LoggerFactory.getLogger(KeywordWrapper::class.java)
 
     fun getWrapper(dbType: DBType?): Pair<String, String> {
         return when (dbType) {

@@ -1,8 +1,7 @@
 package app.spring.config.data
 
-interface ProjectConstants {
+object ProjectConstants {
 
-    companion object {
-        const val propertyAesKey = "npZ+cMpafevsnhgpQQTn8w=="
-    }
+    const val propertyAesKey = "npZ+cMpafevsnhgpQQTn8w=="
+
 }

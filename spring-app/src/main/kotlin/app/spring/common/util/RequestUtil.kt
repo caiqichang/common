@@ -5,8 +5,7 @@ import org.springframework.web.context.request.RequestContextHolder
 import org.springframework.web.context.request.ServletRequestAttributes
 import javax.servlet.http.HttpServletRequest
 
-enum class RequestUtil {
-    INSTANCE;
+object RequestUtil {
 
     private val headers = listOf(
         "X-Forwarded-For",

@@ -13,18 +13,18 @@ class PropertyCryptoTest {
 
     @Test
     fun generateKey() {
-        log.info(CryptoUtil.INSTANCE.generateRandomAesKey())
+        log.info(CryptoUtil.generateRandomAesKey())
     }
 
     @Test
     fun encrypt() {
         val content = "123456"
-        log.info(CryptoUtil.INSTANCE.encryptByAes(content, ProjectConstants.propertyAesKey))
+        log.info(CryptoUtil.encryptByAes(content, ProjectConstants.propertyAesKey))
     }
 
     @Test
     fun decrypt() {
         val content = "4COA8/RKAdW5aoD/DbfAEA=="
-        log.info(CryptoUtil.INSTANCE.decryptByAes(content, ProjectConstants.propertyAesKey))
+        log.info(CryptoUtil.decryptByAes(content, ProjectConstants.propertyAesKey))
     }
 }

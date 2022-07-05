@@ -39,7 +39,7 @@ class ApiRequestRateLimitAspect {
 
     @Before("$pointcut && @annotation(aop)")
     fun before(joinPoint: JoinPoint, aop: ApiRequestRateLimit) {
-        var key = RequestUtil.INSTANCE.clientIp()
+        var key = RequestUtil.clientIp()
         key += if (aop.group == "") {
             "_${joinPoint.target.javaClass.name}#${joinPoint.signature.name}"
         } else {

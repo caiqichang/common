@@ -4,12 +4,8 @@ import app.spring.common.util.CryptoUtil
 import app.spring.common.util.DataObjectUtil
 import app.spring.common.util.DateTimeUtil
 import app.spring.common.util.TreeUtil
-import com.fasterxml.jackson.databind.ObjectMapper
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.coroutineScope
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
-import kotlinx.coroutines.withContext
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.withTimeout
 import org.junit.jupiter.api.Test
 import org.slf4j.LoggerFactory
 import org.springframework.core.io.buffer.DataBuffer
@@ -18,8 +14,6 @@ import org.springframework.http.HttpHeaders
 import org.springframework.http.HttpMethod
 import org.springframework.web.client.RestTemplate
 import org.springframework.web.reactive.function.client.WebClient
-import org.springframework.web.reactive.function.client.awaitBody
-import org.springframework.web.reactive.function.client.bodyToMono
 import java.net.URI
 import java.nio.file.Files
 import java.nio.file.Path
@@ -44,28 +38,28 @@ class ApplicationTests {
             Tree(5, 6, "e", null),
         )
 
-        val tree = TreeUtil().listToTree(list, Tree::id, Tree::pId, Tree::sub, { p, c ->
+        val tree = TreeUtil.listToTree(list, Tree::id, Tree::pId, Tree::sub, { p, c ->
             if (p.sub === null) p.sub = mutableListOf()
             p.sub!!.add(c)
         }, { l, r -> l.name?.compareTo(r.name ?: "") ?: -1 })
 
-        DataObjectUtil(ObjectMapper()).toMap(Tree(0, null, "root", tree)).forEach { (k, v) ->
+        DataObjectUtil.toMap(Tree(0, null, "root", tree)).forEach { (k, v) ->
             log.info("$k : $v")
         }
     }
 
     @Test
     fun aesTest() {
-        val keyPair = CryptoUtil.INSTANCE.generateRsaKeyPair()
+        val keyPair = CryptoUtil.generateRsaKeyPair()
         log.info(keyPair.publicKey)
-        log.info(CryptoUtil.INSTANCE.processKey(CryptoUtil.INSTANCE.formatPublicKeyToPem(keyPair.publicKey)))
+        log.info(CryptoUtil.processKey(CryptoUtil.formatPublicKeyToPem(keyPair.publicKey)))
     }
 
     @Test
     fun dateTest() {
         val format = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
         val time = LocalDateTime.of(2022, 2, 5, 15, 30)
-        log.info(format.format(DateTimeUtil.INSTANCE.getEnd(time, ChronoUnit.MONTHS)))
+        log.info(format.format(DateTimeUtil.getEnd(time, ChronoUnit.MONTHS)))
     }
 
     private val pattern = Pattern.compile("filename=\"(.+)\"$")
@@ -109,18 +103,25 @@ class ApplicationTests {
     }
 }
 
-fun main() {
+suspend fun main() {
     val log = LoggerFactory.getLogger(Tree::class.java)
 
     log.info("---- start")
 
-    runBlocking {
-        launch {
-            task(10)
-        }
-        launch {
-            task(9)
-        }
+//    runBlocking {
+//        val job = launch {
+//
+//            task(3)
+//        }
+////        launch {
+//            log.info("first")
+//            job.cancelAndJoin()
+//            log.info("second")
+////        }
+//    }
+
+    withTimeout(5000) {
+        delay(6000)
     }
 
     log.info("---- end")
@@ -131,12 +132,14 @@ suspend fun task(t: Int) {
 
     log.info("---- ${t}")
 
-//    delay(t * 1000L)
+    delay(t * 1000L)
 
-    withContext(Dispatchers.IO) {
-        val response = WebClient.create().get().uri("http://localhost:8081/spring-app/user/delay?t=${t}").retrieve().bodyToMono<String>()
-        log.info(response.block())
-    }
+    log.info("---- after ${t}")
+
+//    withContext(Dispatchers.IO) {
+//        val response = WebClient.create().get().uri("http://localhost:8081/spring-app/user/delay?t=${t}").retrieve().bodyToMono<String>()
+//        log.info(response.block())
+//    }
 }
 
 data class Tree(
