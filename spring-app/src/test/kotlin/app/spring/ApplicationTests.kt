@@ -4,8 +4,6 @@ import app.spring.common.util.CryptoUtil
 import app.spring.common.util.DataObjectUtil
 import app.spring.common.util.DateTimeUtil
 import app.spring.common.util.TreeUtil
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.withTimeout
 import org.junit.jupiter.api.Test
 import org.slf4j.LoggerFactory
 import org.springframework.core.io.buffer.DataBuffer
@@ -23,6 +21,7 @@ import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import java.time.temporal.ChronoUnit
 import java.util.regex.Pattern
+import kotlin.reflect.KProperty
 
 class ApplicationTests {
 
@@ -94,52 +93,18 @@ class ApplicationTests {
 
     @Test
     fun mapTest() {
-//        val avg: (Int, Int) -> Int = { x, y -> (x and y) + ((x xor y) shr 1) }
-//        Assertions.assertEquals(4, avg(5, 4))
 
         var m = mapOf("a" to 1, "b" to 2)
         m += listOf("c" to 3, "d" to 4)
         log.info(m.toString())
     }
-}
 
-suspend fun main() {
-    val log = LoggerFactory.getLogger(Tree::class.java)
-
-    log.info("---- start")
-
-//    runBlocking {
-//        val job = launch {
-//
-//            task(3)
-//        }
-////        launch {
-//            log.info("first")
-//            job.cancelAndJoin()
-//            log.info("second")
-////        }
-//    }
-
-    withTimeout(5000) {
-        delay(6000)
+    @Test
+    fun sigTest() {
+        var ii = Sig.i
+        var iii = Sig.i
+        log.info("ii + iii = ${ii + iii}")
     }
-
-    log.info("---- end")
-}
-
-suspend fun task(t: Int) {
-    val log = LoggerFactory.getLogger(Tree::class.java)
-
-    log.info("---- ${t}")
-
-    delay(t * 1000L)
-
-    log.info("---- after ${t}")
-
-//    withContext(Dispatchers.IO) {
-//        val response = WebClient.create().get().uri("http://localhost:8081/spring-app/user/delay?t=${t}").retrieve().bodyToMono<String>()
-//        log.info(response.block())
-//    }
 }
 
 data class Tree(
@@ -148,3 +113,21 @@ data class Tree(
     var name: String?,
     var sub: MutableList<Tree>?
 )
+
+object Sig {
+
+    private val log = LoggerFactory.getLogger(Sig::class.java)
+
+    var i: String by object {
+        operator fun getValue(sig: Sig, property: KProperty<*>): String {
+            val s = "${Math.random()}"
+            return s
+        }
+
+        operator fun setValue(sig: Sig, property: KProperty<*>, s: String) {
+            i = s
+        }
+
+    }
+
+}
