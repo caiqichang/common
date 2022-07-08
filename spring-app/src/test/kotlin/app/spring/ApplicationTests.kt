@@ -1,11 +1,14 @@
 package app.spring
 
+import app.spring.business.book.BookContent
+import app.spring.business.book.BookContentConverter
 import app.spring.common.util.CryptoUtil
 import app.spring.common.util.DataObjectUtil
 import app.spring.common.util.DateTimeUtil
 import app.spring.common.util.TreeUtil
 import org.junit.jupiter.api.Test
 import org.slf4j.LoggerFactory
+import org.springframework.core.convert.converter.Converter
 import org.springframework.core.io.buffer.DataBuffer
 import org.springframework.core.io.buffer.DataBufferUtils
 import org.springframework.http.HttpHeaders
@@ -104,6 +107,28 @@ class ApplicationTests {
         var ii = Sig.i
         var iii = Sig.i
         log.info("ii + iii = ${ii + iii}")
+    }
+
+    @Test
+    fun anonymousAndLambdaTest() {
+        val anonymous = object : Converter<String, Int> {
+            override fun convert(source: String): Int {
+                return source.toInt()
+            }
+        }
+
+        val lambda = Converter<String, Int> { it.toInt() }
+
+        log.info("anonymous: ${anonymous.javaClass.genericInterfaces.joinToString { it.typeName }}")
+        log.info("lambda: ${lambda.javaClass.genericInterfaces.joinToString { it.typeName }}")
+
+        log.info("anonymous: ${doConvert("123", anonymous)}")
+        log.info("lambda: ${doConvert("123", lambda)}")
+
+    }
+
+    private fun <S, T> doConvert(source: S, converter: Converter<S, T>): T? {
+        return converter.convert(source)
     }
 }
 
