@@ -104,9 +104,7 @@ class ApplicationTests {
 
     @Test
     fun sigTest() {
-        var ii = Sig.i
-        var iii = Sig.i
-        log.info("ii + iii = ${ii + iii}")
+
     }
 
     @Test
@@ -124,6 +122,7 @@ class ApplicationTests {
 
         log.info("anonymous: ${doConvert("123", anonymous)}")
         log.info("lambda: ${doConvert("123", lambda)}")
+
 
     }
 
