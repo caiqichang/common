@@ -1,4 +1,4 @@
-import RouterConfig from "./router/RouterConfig"
+import RouterConfig from "./config/RouterConfig"
 import {BrowserRouter} from "react-router-dom"
 
 export default () => {

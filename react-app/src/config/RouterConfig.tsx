@@ -1,5 +1,5 @@
 import { Route, Routes } from "react-router-dom"
-import RouteList from "./index"
+import RouteList from "../router/index"
 import React from "react"
 
 interface AppRoute {
