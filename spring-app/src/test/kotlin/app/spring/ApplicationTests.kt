@@ -110,6 +110,7 @@ class ApplicationTests {
     @Test
     fun anonymousAndLambdaTest() {
         val anonymous = object : Converter<String, Int> {
+
             override fun convert(source: String): Int {
                 return source.toInt()
             }

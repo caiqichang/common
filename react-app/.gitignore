@@ -1,0 +1,12 @@
+# node
+node_modules
+
+# vscode
+.vscode
+
+# jetbrains
+.idea
+*.iml
+
+# project
+/build
