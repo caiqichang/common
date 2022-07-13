@@ -3,7 +3,6 @@
   "version": "1.0.0",
   "scripts": {
     "start": "react-scripts start",
-    "prebuild:prod": "node --require dotenv/config script/clear-old.tsx dotenv_config_path=./.env.prod",
     "build:prod": "env-cmd --file .env.prod react-scripts build"
   },
   "dependencies": {
