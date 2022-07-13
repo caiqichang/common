@@ -18,6 +18,7 @@
 
 # node
 node_modules
+package-lock.json
 
 # maven
 target
