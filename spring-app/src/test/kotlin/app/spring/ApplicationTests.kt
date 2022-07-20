@@ -1,11 +1,12 @@
 package app.spring
 
-import app.spring.business.book.BookContent
-import app.spring.business.book.BookContentConverter
 import app.spring.common.util.CryptoUtil
 import app.spring.common.util.DataObjectUtil
 import app.spring.common.util.DateTimeUtil
 import app.spring.common.util.TreeUtil
+import kotlinx.coroutines.job
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import org.junit.jupiter.api.Test
 import org.slf4j.LoggerFactory
 import org.springframework.core.convert.converter.Converter
@@ -125,6 +126,13 @@ class ApplicationTests {
         log.info("lambda: ${doConvert("123", lambda)}")
 
 
+    }
+
+    fun coroutines() {
+        runBlocking {
+            val job = launch {  }
+            job.join()
+        }
     }
 
     private fun <S, T> doConvert(source: S, converter: Converter<S, T>): T? {
